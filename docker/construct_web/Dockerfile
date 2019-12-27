@@ -2,7 +2,7 @@
 FROM nginx:1.15.8-alpine
 
 # environment variables
-ENV NODE_ENV="development"
+ENV NODE_ENV="production"
 ENV NODE_TLS_REJECT_UNAUTHORIZED="0"
 
 # work directory
