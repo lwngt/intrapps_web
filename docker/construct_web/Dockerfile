@@ -12,9 +12,8 @@ WORKDIR /work
 ADD ./app/nginx/web_default.conf /etc/nginx/conf.d/
 ADD ./app/src/public/assets/css /var/www/html/assets/css
 ADD ./app/src/public/assets/fonts /var/www/html/assets/fonts
-ADD ./app/src/public/assets/img/bg /var/www/html/assets/img/bg
-ADD ./app/src/public/assets/img/faces /var/www/html/assets/img/faces
-ADD ./app/src/public/assets/img/flags /var/www/html/assets/img/flags
+ADD ./app/src/public/assets/img /var/www/html/assets/img
+ADD ./app/src/public/assets/js /var/www/html/assets/js
 ADD ./app/src/public/assets/js/core /var/www/html/assets/js/core
 ADD ./app/src/public/assets/js/plugins /var/www/html/assets/js/plugins
 ADD ./app/src/public/assets/js/vendor /var/www/html/assets/js/vendor
