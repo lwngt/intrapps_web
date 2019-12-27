@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png" />
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Intrapps
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+    name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+  <!-- CSS Files -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+</head>
+
+<body class="login-page">
+  <div id="overlay">
+    <div class="cv-spinner">
+      <span class="spinner"></span>
+    </div>
+  </div>
+  <div class="wrapper wrapper-full-page d-flex align-items-center ">
+    <div class="full-page section-image" filter-color="black">
+      <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+      <div class="content" style="margin-top: auto; margin-bottom: auto; padding-top: 0px; padding-bottom: 0px;">
+        <div class="container">
+          <div class="col-md-10 ml-auto mr-auto">
+            <div class="card">
+              <div class="card-header" style="text-align: center; margin-top: 10px; margin-bottom: -20px;">
+                <h3>Intrapps</h3>
+                <h6 class="step-3 text-center" style="color: red; display: none;">ユーザー登録内容を確認してください。</h6>
+              </div>
+              <div class="card-body">
+                <form id="RegisterValidation" name="RegisterValidation" method="post" action="/signup_execute">
+                  <div class="step-1">
+                    <h6 class="text-center">STEP 1</h6>
+                    <div class="row">
+                      <div class="col-6 pr-1">
+                        <label>Username *</label>
+                        <div class="form-group">
+                          <input id="user-name" name="user_name" type="text" minLength="6" maxLength="100"
+                            class="form-control" placeholder="Username" required="true" />
+                        </div>
+                      </div>
+                      <div class="col-6 pl-1">
+                        <label>Password *</label>
+                        <div class="form-group">
+                          <input id="user-password" name="user_password" minLength="6" maxLength="100" type="password"
+                            class="form-control" placeholder="Password" required="true" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>E-mail address *</label>
+                        <div class="form-group">
+                          <input id="user-email" name="user_email" minLength="6" maxLength="100" type="email"
+                            class="form-control" placeholder="E-mail" required="true" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-6 pr-1">
+                        <label>Last name *</label>
+                        <div class="form-group">
+                          <input id="user-lastname" name="user_lastname" minLength="1" maxLength="100" type="text"
+                            class="form-control" placeholder="Last Name" required="true" />
+                        </div>
+                      </div>
+                      <div class="col-6 pl-1">
+                        <label>First name *</label>
+                        <div class="form-group">
+                          <input id="user-firstname" name="user_firstname" minLength="1" maxLength="100" type="text"
+                            class="form-control" placeholder="First Name" required="true" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="step-2">
+                    <h6 class="text-center">STEP 2</h6>
+                    <div class="row">
+                      <div class="col-6 pr-1">
+                        <label>Country *</label>
+                        <div class="form-group">
+                          <input id="user-country" name="user_country" minLength="1" maxLength="16" type="text"
+                            class="form-control" placeholder="Country" required="true" />
+                        </div>
+                      </div>
+                      <div class="col-6 pl-1">
+                        <label>Postal code *</label>
+                        <div class="form-group">
+                          <input id="user-postal-code" name="user_postal_code" minLength="4" maxLength="10" type="text"
+                            class="form-control" placeholder="ZIP Code" required="true" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-6 pr-1">
+                        <label>Province *</label>
+                        <div class="form-group">
+                          <input id="user-province" name="user_province" minLength="1" maxLength="100" type="text"
+                            class="form-control" placeholder="Province" required="true" />
+                        </div>
+                      </div>
+                      <div class="col-6 pl-1">
+                        <label>City *</label>
+                        <div class="form-group">
+                          <input id="user-city" name="user_city" minLength="1" maxLength="100" type="text"
+                            class="form-control" placeholder="City" required="true" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>Address *</label>
+                        <div class="form-group">
+                          <input id="user-address" name="user_address" minLength="1" maxLength="100" type="text"
+                            class="form-control" placeholder="Home Address" required="true" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-6 pr-1">
+                        <label>Company *</label>
+                        <div class="form-group">
+                          <input id="user-company" name="user_company" minLength="1" maxLength="100" type="text"
+                            class="form-control" placeholder="Company" required="true" />
+                        </div>
+                      </div>
+                      <div class="col-6 pl-1">
+                        <label>Telephone number *</label>
+                        <div class="form-group">
+                          <input id="user-tel" name="user_tel" minLength="3" maxLength="11" type="text"
+                            class="form-control" placeholder="telephone number" required="true" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="step-3" style="width: 100%; height: 300px; overflow: auto;">
+                    <div class="">
+                      <table class="table">
+                        <thead class="">
+                          <tr>
+                            <th>
+                              item
+                            </th>
+                            <th>
+                              content
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Username</td>
+                            <td id="confirm-user-name"></td>
+                          </tr>
+                          <tr>
+                            <td>E-mail address</td>
+                            <td id="confirm-user-email"></td>
+                          </tr>
+                          <tr>
+                            <td>Last name</td>
+                            <td id="confirm-user-lastname"></td>
+                          </tr>
+                          <tr>
+                            <td>First name</td>
+                            <td id="confirm-user-firstname"></td>
+                          </tr>
+                          <tr>
+                            <td>Country</td>
+                            <td id="confirm-user-country"></td>
+                          </tr>
+                          <tr>
+                            <td>Postal code</td>
+                            <td id="confirm-user-postal-code"></td>
+                          </tr>
+                          <tr>
+                            <td>Province</td>
+                            <td id="confirm-user-province"></td>
+                          </tr>
+                          <tr>
+                            <td>City</td>
+                            <td id="confirm-user-city"></td>
+                          </tr>
+                          <tr>
+                            <td>Address</td>
+                            <td id="confirm-user-address"></td>
+                          </tr>
+                          <tr>
+                            <td>Company</td>
+                            <td id="confirm-user-company"></td>
+                          </tr>
+                          <tr>
+                            <td>Telephone number</td>
+                            <td id="confirm-user-tel"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="card-footer">
+                <div class="step-1 text-center">
+                  <button id="user-next" class="btn btn-warning btn-round mb-3 px-auto">
+                    <i class="fas fa-edit"></i> Next
+                  </button>
+                </div>
+                <div class="step-2">
+                  <div class="row">
+                    <div class="col-4">
+                      <button id="user-back" class="btn btn-warning btn-link">
+                        <i class="fas fa-caret-left"></i> Back
+                      </button>
+                    </div>
+                    <div class="col-4 text-center">
+                      <button id="user-confirm" class="btn btn-warning btn-round mb-3 px-auto">
+                        <i class="fas fa-check"></i> Confirm
+                      </button>
+                    </div>
+                    <div class="col-4"></div>
+                  </div>
+                </div>
+                <div class="step-3 text-center">
+                  <div class="row">
+                    <div class="col-4">
+                      <button id="user-back-step2" class="btn btn-warning btn-link">
+                        <i class="fas fa-caret-left"></i> Back
+                      </button>
+                    </div>
+                    <div class="col-4 text-center">
+                      <button id="user-signup" class="btn btn-warning btn-round mb-3 px-auto" data-toggle="modal"
+                        data-target="#myModal">
+                        <i class="fas fa-user-plus"></i> Register
+                      </button>
+                    </div>
+                    <div class="col-4"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer id="footer" class="footer footer-black footer-white fixed-bottom"></footer>
+    </div>
+    <!-- error dialog -->
+    <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
+    <div id="modal"></div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="assets/js/core/jquery.min.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="assets/js/plugins/jquery.validate.min.js"></script>
+  <script>
+    $.getScript("assets/js/vendor/common_validation.js");
+    $(() => {
+      $("#footer").load("assets/include/footer.html", () => {
+        $("#modal").load("assets/include/modal.html", show_modal_when_onload);
+        $(".step-1").show();
+        $(".step-2").hide();
+        $(".step-3").hide();
+        setFormValidation('#RegisterValidation');
+      });
+    });
+
+    // show error dialog when load
+    show_modal_when_onload = () => {
+      $.getScript("assets/js/vendor/common_util.js", () => {
+        <% if (req.session.error !== undefined) { %>
+          $("#load-modal").trigger("click");
+        <% } %>
+      });
+    };
+    $("#load-modal").click(() => {
+      <% if (req.session.error !== undefined) { %>
+        create_modal('エラー (<%= req.session.error.status %>_<%= req.session.error.code %>)',
+          '<%= req.session.error.message %>', '閉じる', null);
+      <% } %>
+    });
+
+    $('#user-next').click(() => {
+      $("#RegisterValidation").valid();
+      if (check_validation_result($("#user-name"))
+        && check_validation_result($("#user-password"))
+        && check_validation_result($("#user-email"))
+        && check_validation_result($("#user-firstname"))
+        && check_validation_result($("#user-lastname"))
+      ) {
+        reset_validation_result($("#user-country"));
+        reset_validation_result($("#user-postal-code"));
+        reset_validation_result($("#user-province"));
+        reset_validation_result($("#user-city"));
+        reset_validation_result($("#user-address"));
+        reset_validation_result($("#user-company"));
+        reset_validation_result($("#user-tel"));
+        $(".step-1").hide();
+        $(".step-2").show();
+        $(".step-3").hide();
+      }
+    });
+
+    $('#user-back').click(() => {
+      $(".step-1").show();
+      $(".step-2").hide();
+      $(".step-3").hide();
+    });
+
+    $('#user-back-step2').click(() => {
+      $(".step-1").hide();
+      $(".step-2").show();
+      $(".step-3").hide();
+    })
+
+    $('#user-confirm').click(() => {
+      $("#RegisterValidation").valid();
+      if (check_validation_result($("#user-country"))
+        && check_validation_result($("#user-postal-code"))
+        && check_validation_result($("#user-province"))
+        && check_validation_result($("#user-city"))
+        && check_validation_result($("#user-address"))
+        && check_validation_result($("#user-company"))
+        && check_validation_result($("#user-tel"))
+      ) {
+        $("#confirm-user-name").text($("#user-name").val())
+        $("#confirm-user-email").text($("#user-email").val())
+        $("#confirm-user-lastname").text($("#user-lastname").val())
+        $("#confirm-user-firstname").text($("#user-firstname").val())
+        $("#confirm-user-postal-code").text($("#user-postal-code").val())
+        $("#confirm-user-country").text($("#user-country").val())
+        $("#confirm-user-province").text($("#user-province").val())
+        $("#confirm-user-city").text($("#user-city").val())
+        $("#confirm-user-address").text($("#user-address").val())
+        $("#confirm-user-company").text($("#user-company").val())
+        $("#confirm-user-tel").text($("#user-tel").val())
+        $(".step-1").hide();
+        $(".step-2").hide();
+        $(".step-3").show();
+      }
+    });
+
+    $('#user-signup').click(() => {
+      execute_signup(() => {
+        // post method is here
+        show_circle_loading();
+        $("#RegisterValidation").submit();
+      });
+    });
+
+    setFormValidation = (id) => {
+      $(id).validate({
+        highlight: function (element) {
+          $(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
+          $(element).closest('.form-check').removeClass('has-success').addClass('has-danger');
+        },
+        success: function (element) {
+          $(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+          $(element).closest('.form-check').removeClass('has-danger').addClass('has-success');
+          $(element).closest('.form-group').find('label').remove();
+          // develop original validation check because jquery validate plugin of addmetod doesn't work..
+          // I don't know why of it.
+          if ($(element).attr('id') === 'user-name-error') {
+            if (half_size_check($("#user-name").val()) === false) {
+              display_check_error(half_size_check_error_comment, $("#user-name"));
+            }
+          }
+          if ($(element).attr("id") === "user-password-error") {
+            if (password_check($("#user-password").val()) === false) {
+              display_check_error(password_check_error_comment, $("#user-password"));
+            }
+          }
+          if ($(element).attr('id') === 'user-postal-code-error') {
+            if (numeric_error_check($("#user-postal-code").val()) === false) {
+              display_check_error(numeric_error_check_comment, $("#user-postal-code"));
+            }
+          }
+          if ($(element).attr('id') === 'user-tel-error') {
+            if (numeric_error_check($("#user-tel").val()) === false) {
+              display_check_error(numeric_error_check_comment, $("#user-tel"));
+            }
+          }
+        },
+        errorPlacement: function (error, element) {
+          $(element).closest('.form-group').find('label').remove();
+          $(element).closest('.form-group').append(error);
+        },
+      });
+    };
+  </script>
+</body>
+
+</html>

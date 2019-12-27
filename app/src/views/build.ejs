@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Intrapps
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+    name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <!-- CSS Files -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+</head>
+
+<body class="">
+  <div id="overlay">
+    <div class="cv-spinner">
+      <span class="spinner"></span>
+    </div>
+  </div>
+  <div class="wrapper ">
+    <!-- sidebar -->
+    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+      <% if(page_result !== null) { %>
+      <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
+      <% } else { %>
+      <%- include('sidebar-main', {"sidebar": null}); %>
+      <% } %>
+    </div>
+    <div class="main-panel">
+      <!-- navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+              <button id="minimizeSidebar" class="btn btn-icon btn-round">
+                <i class="nc-icon nc-minimal-right text-center visible-on-sidebar-mini"></i>
+                <i class="nc-icon nc-minimal-left text-center visible-on-sidebar-regular"></i>
+              </button>
+            </div>
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a id="navbar-title" class="navbar-brand"
+              href="build?build_id=<%= page_result.data.building.build_id %>">Application</a>
+          </div>
+          <div class="collapse navbar-collapse justify-content-first" id="navigation">
+          </div>
+          <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
+          <button id="add-build" class="btn top-button-margin btn-round" style="margin-top: 0px; margin-bottom: 0px;">
+            <i class="fa fa-plus"></i> add app
+          </button>
+          <% } %>
+      </nav>
+      <!-- body -->
+      <div class="content">
+        <% if(page_result !== null) { %>
+        <!-- Card content -->
+        <%   let type = (page_result.data.building.type === 0) ? "ios" : "android"; %>
+        <div class="card <%= type %>">
+          <div class="card-header">
+            <!-- General Information in header -->
+            <div class="row">
+              <!-- Build No -->
+              <div class="col-12 col-md-3  d-flex align-items-center">
+                <h4 class="build-no card-title">Build #<%= page_result.data.building.build_id %></h4>
+              </div>
+              <!-- OS -->
+              <% if(page_result.data.building.type === 0) { %>
+              <div class="col-6 col-md-7  d-flex align-items-center">
+                <span class="badge badge-pill badge-red">
+                  iOS
+                </span>
+              </div>
+              <% } else { %>
+              <div class="col-6 col-md-7  d-flex align-items-center">
+                <span class="badge badge-pill badge-blue">
+                  Android
+                </span>
+              </div>
+              <% } %>
+              <!-- edit -->
+              <div class="col-6 col-md-2 text-right">
+                <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
+                <button class="btn btn-default btn-icon btn-sm build-edit"
+                  data-buildid="<%= page_result.data.building.build_id %>">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <% } %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="card-category col-5 col-md-3">Upload date</div>
+              <div id="upload-date-<%= page_result.data.building.build_id %>" class="col-7 col-md-3"></div>
+              <div class="card-category col-5 col-md-3">Icon</div>
+              <div class="project-icon-image col-7 col-md-3">
+                <img class="app-icon" src="<%= icon %>/<%= page_result.data.building.project.icon %>">
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 col-md-12 text-center">
+                <% if(page_result.data.building.type === 0) { %>
+                <button class="btn btn-danger install-button" data-ostype="ios"
+                  data-enabled="<%= page_result.data.building.application.enabled %>"
+                  data-filename="<%= page_result.data.building.application.plist_name %>">
+                  <% } else { %>
+                  <button class="btn btn-danger install-button" data-ostype="android"
+                    data-enabled="<%= page_result.data.building.application.enabled %>"
+                    data-filename="<%= page_result.data.building.application.file_name %>">
+                    <% }%>
+                    <i class="nc-icon nc-cloud-download-93"></i> Download !!
+                  </button>
+              </div>
+            </div>
+            <hr>
+            <h6>Release Note</h6>
+            <div class="row">
+              <div class="release-note-text col-12 col-md-12">
+                <%= page_result.data.building.application.release_note %>
+              </div>
+            </div>
+            <hr>
+            <!-- Project setting information -->
+            <h6>Project Information</h6>
+            <div class="row">
+              <div class="card-category col-5 col-md-3">ID</div>
+              <div class="project-icon-image col-7 col-md-3">
+                #<%= page_result.data.building.project.id %>
+              </div>
+              <div class="card-category col-5 col-md-3 card-category">Project</div>
+              <div class="projet-title col-7 col-md-3"><%= page_result.data.building.project.name %></div>
+            </div>
+            <hr>
+            <!-- App Information of ipa file -->
+            <h6>App Information</h6>
+            <% if(page_result.data.building.type === 0) { %>
+            <div class="row">
+              <div class="card-category col-5 col-md-3">App title</div>
+              <div class="app-name col-7 col-md-3"><%= page_result.data.building.application.title %></div>
+              <div class="card-category col-5 col-md-3">Bundle Id</div>
+              <div class="app-bundleid col-7 col-md-3"><%= page_result.data.building.application.bundle_id %></div>
+            </div>
+            <div class="row">
+              <div class="card-category col-5 col-md-3">App ver</div>
+              <div class="app-version col-7 col-md-3"><%= page_result.data.building.application.current_version %></div>
+              <div class="card-category col-5 col-md-3">Min OS Ver</div>
+              <div class="app-minver col-7 col-md-3">iOS <%= page_result.data.building.application.min_os_version %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="card-category col-5 col-md-3">Upload user</div>
+              <div class="app-minver col-7 col-md-3"><%= page_result.data.building.application.last_and_first_name %>
+              </div>
+              <div class="card-category col-5 col-md-3">File Name</div>
+              <div class="app-file-name col-7 col-md-3"><%= page_result.data.building.application.file_original_name %>
+              </div>
+            </div>
+            <% } else { %>
+            <div class="row">
+              <div class="card-category col-5 col-md-3">App title</div>
+              <div class="app-name col-7 col-md-3"><%= page_result.data.building.application.title %></div>
+              <div class="card-category col-5 col-md-3">Package Name</div>
+              <div class="app-bundleid col-7 col-md-3"><%= page_result.data.building.application.package_name %></div>
+            </div>
+            <div class="row">
+              <div class="card-category col-5 col-md-3">App ver</div>
+              <div class="app-version col-7 col-md-3"><%= page_result.data.building.application.current_version %></div>
+              <div class="card-category col-5 col-md-3">Min OS Ver</div>
+              <div class="app-minver col-7 col-md-3">Android <%= page_result.data.building.application.min_os_version %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="card-category col-5 col-md-3">Upload user</div>
+              <div class="app-minver col-7 col-md-3"><%= page_result.data.building.application.last_and_first_name %>
+              </div>
+              <div class="card-category col-5 col-md-3">File Name</div>
+              <div class="app-file-name col-7 col-md-3"><%= page_result.data.building.application.file_original_name %>
+              </div>
+            </div>
+            <% } %>
+            <hr>
+            <div class="row">
+              <div class="col-6 d-flex align-items-center">
+                <h6>Report</h6>
+              </div>
+              <div class="col-6 text-right">
+                <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
+                <button class="btn btn-default btn-round btn-sm report-add"
+                  data-buildid="<%= page_result.data.building.build_id %>">
+                  <i class="nc-icon nc-simple-add"></i> レポート追加
+                </button>
+                <% } %>
+              </div>
+            </div>
+            <% if(page_result.data.building.report !== null) { %>
+            <% if(page_result.data.building.report.length > 0) { %>
+            <% page_result.data.building.report.forEach((report_item) => { %>
+            <div class="report">
+              <div class="report-record">
+                <div class="row">
+                  <div class="report-user col-7 card-category d-flex align-items-center">
+                    <%= report_item.last_and_first_name %>
+                    <div style="padding-left: 10px;" id="report-date-<%= report_item.report_id %>"></div>
+                  </div>
+                  <div class="col-5 text-right">
+                    <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
+                    <button class="btn btn-default btn-icon btn-sm report-edit"
+                      data-buildid="<%= report_item.build_id %>" data-reportid="<%= report_item.report_id %>">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <% } %>
+                    <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
+                    <button class="btn btn-default btn-icon btn-sm report-remove"
+                      data-buildid="<%= report_item.build_id %>" data-reportid="<%= report_item.report_id %>"
+                      data-toggle="modal" data-target="#myModal">
+                      <i class=" nc-icon nc-simple-remove"></i>
+                    </button>
+                    <% } %>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="report-text col-12 col-md-12">
+                    <%= report_item.note %>
+                  </div>
+                </div>
+              </div>
+              <div style="padding-top: 15px"></div>
+            </div>
+            <% }); %>
+            <% } %>
+            <% } %>
+            <hr>
+          </div>
+          <!-- card fotter -->
+          <div class="card-footer">
+          </div>
+        </div>
+        <!-- End of "card" contents -->
+        <% } %>
+      </div>
+      <!-- End of card content -->
+      <!-- fotter -->
+      <footer id="footer" class="footer footer-black  footer-white ">
+      </footer>
+      <div id="modal"></div>
+      <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
+      <div id="download-modal" data-toggle="modal" data-target="#myModal"></div>
+
+      <form id="remove-report-comment" name="remove_report_comment" method="post" action="/report_delete_execute">
+        <input type="hidden" id="remove-build-id" name="remove_build_id">
+        <input type="hidden" id="remove-report-id" name="remove_report_id">
+      </form>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="assets/js/core/jquery.min.js"></script>
+  <script>
+    $.getScript("assets/js/vendor/common_sidebar.js", () => {
+      inherit_sidebar_setting();
+    });
+
+    $(() => {
+      <% if (page_result !== null && page_result.data.building !== null) { %>
+        // output localtime
+        $("#upload-date-<%= page_result.data.building.build_id %>").text(new Date("<%= page_result.data.building.upload_date %>").toLocaleString());
+        <% if (page_result.data.building.report !== null) { %>
+          <% if (page_result.data.building.report.length > 0) { %>
+            <% page_result.data.building.report.forEach((report_item) => { %>
+          $("#report-date-<%= report_item.report_id %>").text(new Date("<%= report_item.created %>").toLocaleString());
+            <% }); %>
+          <% }  %>
+        <% }  %>
+      <% } %>
+        $("#footer").load("assets/include/footer.html", () => {
+          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
+        });
+    });
+
+    // show error dialog when load
+    show_modal_when_onload = () => {
+      $.getScript("assets/js/vendor/common_util.js", () => {
+      <% if (error !== undefined && error !== null) { %>
+          $("#load-modal").trigger("click");
+      <% } %>
+          window.onpageshow = function () {
+            delete_circle_loading();
+          }
+      });
+    };
+
+    $("#load-modal").click(() => {
+      <% if (error !== undefined && error !== null) { %>
+        create_modal('エラー (<%= error.status %>_<%= error.code %>)',
+          '<%= error.message %>', '閉じる', null);
+      <% } %>
+    });
+
+    <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
+      $(".build-edit").click(function (event) {
+        show_circle_loading();
+        let build_id = event.target.parentNode.dataset.buildid;
+        window.location.href = "/build_edit?build_id=" + build_id;
+      });
+    <% } %>
+
+    <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
+      $('.report-add').click((event) => {
+        show_circle_loading();
+        let build_id = event.target.dataset.buildid;
+        window.location.href = "/report_add?build_id=" + build_id;
+      });
+    <% } %>
+
+    <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
+      $('.report-edit').click((event) => {
+        show_circle_loading();
+        let build_id = event.target.parentNode.dataset.buildid;
+        let comment_id = event.target.parentNode.dataset.reportid;
+        window.location.href = "/report_edit?build_id=" + build_id + "&report_id=" + comment_id;
+      });
+    <% } %>
+
+    <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
+      $('.report-remove').click((event) => {
+        execute_delete_comment(() => {
+          show_circle_loading();
+          let build_id = event.target.parentNode.dataset.buildid;
+          $('#remove-build-id').val(build_id);
+          let report_id = event.target.parentNode.dataset.reportid;
+          $('#remove-report-id').val(report_id);
+          $('#remove-report-comment').submit();
+          remove_modal();
+        });
+      });
+    <% } %>
+
+      $(".install-button").click((event) => {
+        let file_name = event.target.dataset.filename;
+        let os_type = event.target.dataset.ostype;
+        let enabled = event.target.dataset.enabled;
+        if (Number(enabled) === 0) {
+          show_stop_download_message();
+          return;
+        }
+        let base_url = null;
+        let plist_path = "<%= plist %>";
+        let apk_path = "<%= apk %>";
+        if (os_type === 'ios') {
+          base_url = "itms-services://?action=download-manifest&url=" + plist_path;
+        } else {
+          base_url = apk_path;
+        }
+        let url = base_url + file_name;
+        execute_download_file(url, file_name);
+      });
+
+    const show_stop_download_message = () => {
+      $("#download-modal").trigger("click");
+    };
+
+    $("#download-modal").click(() => {
+      not_to_download_application();
+    });
+
+    const execute_download_file = (url, file_name) => {
+      let anker = document.createElement('a');
+      anker.download = file_name;
+      anker.href = url;
+      anker.click();
+    };
+
+    // add build
+    <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
+      $('#add-build').click(() => {
+        show_circle_loading();
+        window.location.href = "/build_add?project_id=<%= page_result.data.building.project.id %>";
+      });
+    <% } %>
+
+      $(".sidebar-redirect").click(() => {
+        show_circle_loading();
+      });
+  </script>
+</body>
+
+</html>

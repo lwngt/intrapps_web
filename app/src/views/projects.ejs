@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Intrapps
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+    name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <!-- CSS Files -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+</head>
+
+<body class="">
+  <div id="overlay">
+    <div class="cv-spinner">
+      <span class="spinner"></span>
+    </div>
+  </div>
+  <div class="wrapper ">
+    <!-- sidebar -->
+    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+      <% if(page_result !== null) { %>
+      <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
+      <% } else { %>
+      <%- include('sidebar-main', {"sidebar": null}); %>
+      <% } %>
+    </div>
+    <div class="main-panel">
+      <!-- navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+              <button id="minimizeSidebar" class="btn btn-icon btn-round">
+                <i class="nc-icon nc-minimal-right text-center visible-on-sidebar-mini"></i>
+                <i class="nc-icon nc-minimal-left text-center visible-on-sidebar-regular"></i>
+              </button>
+            </div>
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a id="navbar-title" class="navbar-brand" href="/projects">Project list</a>
+          </div>
+          <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
+          <button id="add-project" class="btn top-button-margin btn-round">
+            <i class="fa fa-plus"></i> add project
+          </button>
+          <% } %>
+      </nav>
+      <!-- body -->
+      <div class="content">
+        <% if(Array.isArray(page_result.data.projects)) { %>
+        <!-- Start of card content -->
+        <div class="card">
+          <div class="card-header">
+          </div>
+          <div class="card-body">
+            <div class="toolbar row">
+              <!--        Here you can write extra buttons/actions for the toolbar              -->
+            </div>
+            <% if(page_result.data.projects !== undefined || page_result.data.projects !== null) { %>
+            <%   if(Array.isArray(page_result.data.projects) && page_result.data.projects.length > 0) { %>
+            <table id="datatable-projects" class="table table-striped table-bordered" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th class="text-center" style="max-width: 20px;">#</th>
+                  <th class="text-center" style="min-width: 100px;">App title</th>
+                  <th class="text-center" style="min-width: 200px;">Overview</th>
+                  <th class="disabled-sorting text-center" style="max-width: 30px;">Detail</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%     page_result.data.projects.forEach( project => { %>
+                <tr>
+                  <td class="project-no"><%= project.project_id %></td>
+                  <td><%= project.project_name %></td>
+                  <td><%= project.project_overview %></td>
+                  <td class="text-center">
+                    <button data-projectid="<%= project.project_id %>"
+                      class="btn btn-warning btn-icon btn-sm edit project-detail">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                  </td>
+                </tr>
+                <%     });  %>
+              </tbody>
+            </table>
+            <%   } %>
+            <% } %>
+          </div>
+          <div class="card-footer">
+          </div>
+        </div>
+        <!-- End of card content -->
+        <% } %>
+      </div>
+      <!-- fotter -->
+      <footer id="footer" class="footer footer-black footer-white ">
+      </footer>
+      <div id="modal"></div>
+      <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="assets/js/core/jquery.min.js"></script>
+
+    <script>
+      $.getScript("assets/js/vendor/common_sidebar.js", () => {
+        change_class('#sidebar-project', sidebar_id_list);
+        set_highlight_sidebar('project_list', 'sidebar-project-all');
+      });
+
+      $(() => {
+        $("#footer").load("assets/include/footer.html", () => {
+          datatables_setting.initialize_for_projectlist_in_projects('#datatable-projects');
+          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
+        });
+      });
+
+      // show error dialog when load
+      show_modal_when_onload = () => {
+        $.getScript("assets/js/vendor/common_util.js", () => {
+        <% if (error !== undefined && error !== null) { %>
+            $("#load-modal").trigger("click");
+        <% } %>
+            window.onpageshow = function () {
+              delete_circle_loading();
+            }
+        });
+      };
+
+      $("#load-modal").click(() => {
+        <% if (error !== undefined && error !== null) { %>
+          create_modal('エラー (<%= error.status %>_<%= error.code %>)',
+            '<%= error.message %>', '閉じる', null);
+        <% } %>
+      });
+
+      $('.project-detail').on('click', (event) => {
+        show_circle_loading();
+        let project_id = event.target.parentNode.dataset.projectid;
+        redirect_page(project_id);
+      });
+
+      <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
+        $("#add-project").on('click', () => {
+          show_circle_loading();
+          window.location.href = '/project_add';
+        });
+      <% } %>
+
+        let redirect_page = (project_id) => {
+          show_circle_loading();
+          window.location.href = '/project?project_id=' + project_id;
+        };
+
+      $(".sidebar-redirect").click(() => {
+        show_circle_loading();
+      });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Intrapps
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+    name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <!-- CSS Files -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+</head>
+
+<body class="">
+  <div id="overlay">
+    <div class="cv-spinner">
+      <span class="spinner"></span>
+    </div>
+  </div>
+  <div class="wrapper ">
+    <!-- sidebar -->
+    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+      <% if(page_result !== null) { %>
+      <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
+      <% } else { %>
+      <%- include('sidebar-main', {"sidebar": null}); %>
+      <% } %>
+    </div>
+    <div class="main-panel">
+      <!-- navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+              <button id="minimizeSidebar" class="btn btn-icon btn-round">
+                <i class="nc-icon nc-minimal-right text-center visible-on-sidebar-mini"></i>
+                <i class="nc-icon nc-minimal-left text-center visible-on-sidebar-regular"></i>
+              </button>
+            </div>
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a id="navbar-title" class="navbar-brand" href="/vendor">Vendor edit</a>
+          </div>
+        </div>
+      </nav>
+      <!-- body -->
+      <div class="content">
+        <!-- Start of card content -->
+        <div class="card">
+          <div class="card-header">
+            <div class="row d-flex align-items-center">
+              <div class="col-10">
+                <h4>Vendor #<%= page_result.data.vendor.id %></h4>
+              </div>
+              <div class=" col-2 text-right">
+                <% if (page_result.data.sidebar.user_information.authority_content.management_delete !== 0) { %>
+                <button id="delete-vendor" class="btn btn-default btn-icon btn-sm" data-toggle="modal"
+                  data-target="#myModal">
+                  <i class=" nc-icon nc-simple-remove"></i>
+                </button>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row d-flex align-items-center">
+              <div class="col-12">
+                <h6>Contractor</h6>
+              </div>
+            </div>
+            <form id="vendor" name="vendor" method="post" action="/vendor_edit_execute">
+              <div class="row  d-flex align-items-center">
+                <div class="card-category col-5 col-md-2 card-category">User #</div>
+                <div class="col-7 col-md-4">
+                  <%= page_result.data.vendor.contractor_user_id %>
+                </div>
+                <div class="card-category col-5 col-md-2 card-category">Username<br></div>
+                <div class=" col-7 col-md-4">
+                  <div class="row d-flex align-items-center">
+                    <div style="padding-right: 10px;"><%= page_result.data.vendor.contractor_user_name %></div>
+                    <div>
+                      <% if( Array.isArray(page_result.data.admin_users) ) { %>
+                      <select class="selectpicker" name="contractor_user_id"
+                        data-size="<%= page_result.data.admin_users.maxLength %>" data-style="btn btn-default"
+                        title="user">
+                        <% page_result.data.admin_users.forEach(user => { %>
+                        <option value="<%= user.id%>"><%= user.name %></option>
+                        <% }); %>
+                      </select>
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row  d-flex align-items-center">
+                <div class="col-12">
+                  <h6>Vendor</h6>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 pr-1">
+                  <label>Country *</label>
+                  <div class="form-group">
+                    <input id="user-country" name="user_country" minLength="1" maxLength="16" type="text"
+                      class="form-control" placeholder="Country" required="true"
+                      value="<%= page_result.data.vendor.country %>" />
+                  </div>
+                </div>
+                <div class="col-6 pl-1">
+                  <label>Postal Code *</label>
+                  <div class="form-group">
+                    <input id="user-postal-code" name="user_postal_code" minLength="4" maxLength="10" type="text"
+                      class="form-control" placeholder="ZIP Code" required="true"
+                      value="<%= page_result.data.vendor.zip_code %>" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 pr-1">
+                  <label>Province *</label>
+                  <div class="form-group">
+                    <input id="user-province" name="user_province" minLength="1" maxLength="100" type="text"
+                      class="form-control" placeholder="Province" required="true"
+                      value="<%= page_result.data.vendor.province %>" />
+                  </div>
+                </div>
+                <div class="col-6 pl-1">
+                  <label>City *</label>
+                  <div class="form-group">
+                    <input id="user-city" name="user_city" minLength="1" maxLength="100" type="text"
+                      class="form-control" placeholder="City" required="true"
+                      value="<%= page_result.data.vendor.city %>" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Address *</label>
+                  <div class="form-group">
+                    <input id="user-address" name="user_address" minLength="1" maxLength="100" type="text"
+                      class="form-control" placeholder="Home Address" required="true"
+                      value="<%= page_result.data.vendor.address %>" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 pr-1">
+                  <label>Company *</label>
+                  <div class="form-group">
+                    <input id="user-company" name="user_company" minLength="1" maxLength="100" type="text"
+                      class="form-control" placeholder="Company" required="true"
+                      value="<%= page_result.data.vendor.name %>" />
+                  </div>
+                </div>
+                <div class="col-6 pl-1">
+                  <label>Telephone number *</label>
+                  <div class="form-group">
+                    <input id="user-tel" name="user_tel" maxLength="11" type="text" class="form-control"
+                      placeholder="telephone number" required="true" value="<%= page_result.data.vendor.tel %>" />
+                  </div>
+                </div>
+              </div>
+              <br>
+              <input type="hidden" name="curent_contractor_user_id"
+                value="<%= page_result.data.vendor.contractor_user_id %>">
+              <input type="hidden" name="current_vendor_id" value="<%= page_result.data.vendor.id %>">
+            </form>
+            <% if (page_result.data.sidebar.user_information.authority_content.management_edit !== 0) { %>
+            <div class="text-center">
+              <button id="save-vendor" class="btn btn-warning btn-round save-user-data" data-toggle="modal"
+                data-target="#myModal">
+                <i class="far fa-save"></i>&nbspsave
+              </button>
+            </div>
+            <% } %>
+          </div>
+          <div class="card-footer text-center">
+          </div>
+        </div>
+      </div>
+      <!-- fotter -->
+      <footer id="footer" class="footer footer-black footer-white ">
+      </footer>
+      <div id="modal"></div>
+      <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="assets/js/core/jquery.min.js"></script>
+    <script>
+      $.getScript("assets/js/vendor/common_sidebar.js", () => {
+        set_highlight_sidebar('management_list', 'sidebar-project-management');
+      });
+
+      $(() => {
+        $("#footer").load("assets/include/footer.html", () => {
+          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
+          $.getScript("assets/js/vendor/common_validation.js", () => {
+            set_form_validation('#vendor');
+          });
+        });
+      });
+
+      // show error dialog when load
+      show_modal_when_onload = () => {
+        $.getScript("assets/js/vendor/common_util.js", () => {
+        <% if (error !== undefined && error !== null) { %>
+            $("#load-modal").trigger("click");
+        <% } %>
+            window.onpageshow = function () {
+              delete_circle_loading();
+            }
+        });
+      };
+
+      $("#load-modal").click(() => {
+        <% if (error !== undefined && error !== null) { %>
+          create_modal('error (<%= error.status %>_<%= error.code %>)',
+            '<%= error.message %>', 'close', null);
+        <% } %>
+      });
+
+      <% if (page_result.data.sidebar.user_information.authority_content.management_delete !== 0) { %>
+        $('#delete-vendor').click(() => {
+          execute_delete_vendor(() => {
+            $("#vendor").prop("action", "/vendor_delete_execute");
+            show_circle_loading();
+            $("#vendor").submit();
+          });
+        });
+      <% } %>
+
+      <% if (page_result.data.sidebar.user_information.authority_content.management_edit !== 0) { %>
+        $('#save-vendor').click(() => {
+          $("#vendor").valid();
+          if (check_validation_result($("#user-country"))
+            && check_validation_result($("#user-postal-code"))
+            && check_validation_result($("#user-province"))
+            && check_validation_result($("#user-city"))
+            && check_validation_result($("#user-address"))
+            && check_validation_result($("#user-company"))
+            && check_validation_result($("#user-tel"))
+          ) {
+            execute_save_vendor(() => {
+              show_circle_loading();
+              $("#vendor").submit();
+            });
+          }
+        });
+     <% } %>
+
+        set_form_validation = (id) => {
+          $(id).validate({
+            highlight: function (element) {
+              $(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
+              $(element).closest('.form-check').removeClass('has-success').addClass('has-danger');
+            },
+            success: function (element) {
+              $(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+              $(element).closest('.form-check').removeClass('has-danger').addClass('has-success');
+              $(element).closest('.form-group').find('label').remove();
+              // develop original validation check because jquery validate plugin of addmetod doesn't work..
+              // I don't know why of it.
+              if ($(element).attr('id') === 'user-postal-code-error') {
+                if (numeric_error_check($("#user-postal-code").val()) === false) {
+                  display_check_error(numeric_error_check_comment, $("#user-postal-code"));
+                }
+              }
+              if ($(element).attr('id') === 'user-tel-error') {
+                if (numeric_error_check($("#user-tel").val()) === false) {
+                  display_check_error(numeric_error_check_comment, $("#user-tel"));
+                }
+              }
+            },
+            errorPlacement: function (error, element) {
+              $(element).closest('.form-group').find('label').remove();
+              $(element).closest('.form-group').append(error);
+            },
+          });
+        };
+
+      $(".sidebar-redirect").click(() => {
+        show_circle_loading();
+      });
+    </script>
+</body>
+
+</html>

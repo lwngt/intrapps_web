@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Intrapps
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+    name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <!-- CSS Files -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+</head>
+
+<body class="">
+  <div id="overlay">
+    <div class="cv-spinner">
+      <span class="spinner"></span>
+    </div>
+  </div>
+  <div class="wrapper ">
+    <!-- sidebar -->
+    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+      <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
+    </div>
+    <div class="main-panel">
+      <!-- navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+              <button id="minimizeSidebar" class="btn btn-icon btn-round">
+                <i class="nc-icon nc-minimal-right text-center visible-on-sidebar-mini"></i>
+                <i class="nc-icon nc-minimal-left text-center visible-on-sidebar-regular"></i>
+              </button>
+            </div>
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a id="navbar-title" class="navbar-brand" href="/build_edit?build_id=<%= build_id %>">Edit build application
+              information</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+            aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- body -->
+      <div class="content">
+        <!-- Start of card content -->
+        <div class="card android">
+          <div class="row card-header">
+            <div class="col-10 d-flex align-items-center">
+              <h4 class="build-no card-title">Build #<%= build_id %></h4>
+              <% if(project_id !== undefined) { %>
+              <h6 class="project-no card-title" style="padding-left: 5px">( Project #<%= project_id %> )</h6>
+              <% } %>
+            </div>
+            <div class="col-2 text-right">
+              <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
+              <button id="delete-build" class="btn btn-default btn-icon btn-sm" data-toggle="modal"
+                data-target="#myModal">
+                <i class=" nc-icon nc-simple-remove"></i>
+              </button>
+              <% } %>
+            </div>
+            <hr>
+          </div>
+          <div class="card-body">
+            <!-- Project setting information -->
+            <form method="post" id="build_edit" action="/build_edit_execute">
+              <div class="row">
+                <div class="card-category col-5 col-md-3 card-category">Release Note</div>
+                <div class="release-note col-7 col-md-9">
+                  <input type='hidden' id="release-note" name="release_note">
+                  <textarea id="build-release-note" rows="8" cols="160" wrap="soft"
+                    class="form-control overview"><%= release_note %></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <hr>
+              </div>
+              <div class="row">
+                <div class="card-category col-5 col-md-3 card-category">Enable download build application</div>
+                <div class="release-note col-7 col-md-9">
+                  <% if( enabled === 1 ) { %>
+                  <input class="bootstrap-switch" id="enable-download" type="checkbox" data-toggle="switch" checked
+                    data-on-label="<i class='nc-icon nc-check-2'></i>"
+                    data-off-label="<i class='nc-icon nc-simple-remove'></i>" data-on-color="success"
+                    data-off-color="success" />
+                  <% } else { %>
+                  <input class="bootstrap-switch" id="enable-download" type="checkbox" data-toggle="switch"
+                    data-on-label="<i class='nc-icon nc-check-2'></i>"
+                    data-off-label="<i class='nc-icon nc-simple-remove'></i>" data-on-color="success"
+                    data-off-color="success" />
+                  <% } %>
+                </div>
+              </div>
+              <input type="hidden" id="enabled" name="enabled">
+              <input type="hidden" name="build_id" value="<%= build_id %>">
+            </form>
+          </div>
+          <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
+          <div class="text-center">
+            <button id="update-build" class="btn btn-warning btn-round" data-toggle="modal" data-target="#myModal">
+              <i class="far fa-save"></i>&nbsp保存
+            </button>
+          </div>
+          <% } %>
+          <div class="card-footer">
+          </div>
+        </div>
+      </div>
+      <!-- fotter -->
+      <footer id="footer" class="footer footer-black  footer-white ">
+      </footer>
+      <div id="modal"></div>
+      <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="assets/js/core/jquery.min.js"></script>
+    <script>
+      $.getScript("assets/js/vendor/common_sidebar.js", () => {
+        inherit_sidebar_setting();
+      });
+
+      $(() => {
+        $("#footer").load("assets/include/footer.html", () => {
+          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
+        });
+      });
+
+      // show error dialog when load
+      show_modal_when_onload = () => {
+        $.getScript("assets/js/vendor/common_util.js", () => {
+        <% if (error !== undefined && error !== null) { %>
+            $("#load-modal").trigger("click");
+          <% } %>
+            window.onpageshow = function () {
+              delete_circle_loading();
+            }
+        });
+      };
+
+      $("#load-modal").click(() => {
+          <% if (error !== undefined && error !== null) { %>
+          create_modal('エラー (<%= error.status %>_<%= error.code %>)',
+            '<%= error.message %>', '閉じる', null);
+          <% } %>
+          });
+
+      $('#update-build').click(() => {
+        let build_release_note_text = $('#build-release-note').val();
+        if (!(build_release_note_text)) {
+          fail_add_build('release_note');
+          return;
+        }
+        $('#release-note').val(build_release_note_text);
+
+        execute_update_build(() => {
+          console.log($('#enable-download').val());
+          if ($('#enable-download').val() === "on") {
+            $('#enabled').val(1);
+          } else {
+            $('#enabled').val(0);
+          }
+          $('#build_edit').submit();
+          remove_modal();
+        });
+      });
+
+      $('#delete-build').click((event) => {
+        // show dialog
+        execute_delete_build(() => {
+          // set action
+          $('#build_edit').prop("action", "/build_delete_execute");
+          show_circle_loading();
+          $('#build_edit').submit();
+          remove_modal();
+        });
+      });
+
+      $(".sidebar-redirect").click(() => {
+        show_circle_loading();
+      });
+    </script>
+</body>
+
+</html>

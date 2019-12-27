@@ -1,0 +1,108 @@
+<!--
+    Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+-->
+<div class="logo text-center">
+  <a href="/dashboard" class="simple-text logo-normal">
+    Intrapps
+  </a>
+</div>
+<div class="sidebar-wrapper">
+  <div class="user">
+    <% if(sidebar !== null) { %>
+    <div class="photo">
+      <% if(sidebar.user_information.authority_type === 0) { %>
+      <img src="assets/img/admin.png" />
+      <% } else if(sidebar.user_information.authority_type === 1) { %>
+      <img src="assets/img/user.png" />
+      <% } else if(sidebar.user_information.authority_type === 2) { %>
+      <img src="assets/img/tester.png" />
+      <% } %>
+    </div>
+    <div class="info">
+      <a data-toggle="collapse" href="#user-control" class="collapsed">
+        <span>
+          <%= sidebar.user_information.last_and_first_name %>
+          <b class="caret"></b>
+        </span>
+      </a>
+      <div class="clearfix"></div>
+      <div class="collapse" id="user-control">
+        <ul class="nav">
+          <li>
+            <a id="logout" href="/logout">
+              <i class="nc-icon nc-user-run"></i>
+              <span class="sidebar-normal">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <% } %>
+  </div>
+  <ul class="nav">
+    <li id="sidebar-build" class="active">
+      <a class="sidebar-redirect" href="/dashboard?page=1">
+        <i class="nc-icon nc-mobile"></i>
+        <p>Latest 100 build apps</p>
+      </a>
+    </li>
+    <% if(sidebar !== null) { %>
+    <li id="sidebar-project">
+      <a id="sidebar-project-collapse" data-toggle="collapse" href="#project_list" aria-expanded="false">
+        <i class="nc-icon nc-tile-56"></i>
+        <p>
+          Projects<b class="caret"></b>
+        </p>
+      </a>
+      <div class="collapse" id="project_list">
+        <ul class="nav">
+          <li id="sidebar-project-all">
+            <a class="sidebar-redirect" href="/projects">
+              <i class="nc-icon nc-tag-content"></i>
+              <span class="sidebar-normal">All projects</span>
+            </a>
+          </li>
+          <% if( Array.isArray(sidebar.user_projects) ) { %>
+          <%   sidebar.user_projects.forEach( (item) => {  %>
+          <li id="sidebar-project-<%= item.project_id %>">
+            <a class="sidebar-redirect" href="/project?project_id=<%= item.project_id %>">
+              <i class="nc-icon nc-tag-content"></i>
+              <span class="sidebar-normal"><%= item.project_name %></span>
+            </a>
+          </li>
+          <%   });   %>
+          <% } %>
+        </ul>
+      </div>
+    </li>
+    <% } %>
+    <% if(sidebar !== null) { %>
+    <% if(sidebar.user_information.authority_content.management !== 0) { %>
+    <li id="sidebar-admin">
+      <a id="sidebar-admin-collapse" data-toggle="collapse" href="#management_list" aria-expanded="false">
+        <i class="nc-icon nc-settings-gear-65"></i>
+        <p>
+          Management<b class="caret"></b>
+        </p>
+      </a>
+      <div class="collapse" id="management_list">
+        <ul class="nav">
+          <li id="sidebar-user-management">
+            <a class="sidebar-redirect" href="/users">
+              <i class="nc-icon nc-circle-10"></i>
+              <span class="sidebar-normal">Users</span>
+            </a>
+          </li>
+          <li id="sidebar-project-management">
+            <a class="sidebar-redirect" href="/vendor">
+              <i class="nc-icon nc-settings"></i>
+              <span class="sidebar-normal">Vendor</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <%   } %>
+    <% } %>
+  </ul>
+</div>

@@ -1,0 +1,46 @@
+version: "3"
+volumes:
+  unmount:
+services:
+  web-app:
+    build:
+      context: ./ # Dockerfile path
+      dockerfile: ./docker/construct_app/Dockerfile # Dockerfile name
+    image: intrapps_web_image:0.6 # image name
+    container_name: intrapps_web_container # container name
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    environment: # Environment variable
+      - PORT=3000
+    volumes: # mount workdir
+      - ./app/src:/work
+      - ./logs:/root/.npm/_logs
+      - ./logs:/work/logs
+      - unmount:/work/node_modules
+    command: [sh, -c, npm install && npm run debug] # Command after working
+    expose: # Open port settting (Debug)
+      - "3000"
+      - "9228"
+    networks:
+      - intrapps_network
+  # Nginx
+  nginx-web-proxy:
+    build:
+      context: ./ # Dockerfile path
+      dockerfile: ./docker/construct_web/Dockerfile # Dockerfile name
+    image: intrapps_web_nginx_image:0.1 # image name
+    container_name: intrapps_web_nginx_container # container name
+    ports: # Port in this application(host:container)
+      - 443:443
+    volumes: # mount workdir
+      - ./app/nginx:/etc/ssl/certs
+    links:
+      - "web-app"
+    expose: # Open port settting
+      - "443"
+    networks:
+      - intrapps_network
+networks:
+  intrapps_network:
+    external: true

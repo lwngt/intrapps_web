@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Intrapps
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+    name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <!-- CSS Files -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+</head>
+
+<body class="">
+  <div id="overlay">
+    <div class="cv-spinner">
+      <span class="spinner"></span>
+    </div>
+  </div>
+  <div class="wrapper ">
+    <!-- sidebar -->
+    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+      <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
+    </div>
+    <div class="main-panel">
+      <!-- navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+              <button id="minimizeSidebar" class="btn btn-icon btn-round">
+                <i class="nc-icon nc-minimal-right text-center visible-on-sidebar-mini"></i>
+                <i class="nc-icon nc-minimal-left text-center visible-on-sidebar-regular"></i>
+              </button>
+            </div>
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a id="navbar-title" class="navbar-brand"
+              href="/project_edit?project_id=<%= page_result.data.project.id %>">Edit project</a>
+          </div>
+        </div>
+      </nav>
+      <!-- body -->
+      <div class="content">
+        <!-- Start of card content -->
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-6  col-md-6">
+                <h4 class="build-no card-title">Project #<%= page_result.data.project.id %></h4>
+              </div>
+              <div class="col-6  col-md-6 text-right">
+                <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
+                <button id="delete-project" class="btn btn-default btn-icon btn-sm"
+                  data-projectid="<%= page_result.data.project.id %>" data-toggle="modal" data-target="#myModal">
+                  <i class=" nc-icon nc-simple-remove"></i>
+                </button>
+                <% } %>
+              </div>
+            </div>
+            <hr>
+          </div>
+          <div class="card-body">
+            <!-- Project setting information -->
+            <h6>Project Information</h6>
+            <br>
+            <form id="project-edit" method="post" action="/project_edit_execute" enctype="multipart/form-data">
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category">Project Name</div>
+                <div class="col-12 col-md-9">
+                  <input id="project-name" name="project_name" type="text" class="form-control"
+                    value="<%= page_result.data.project.name %>">
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category">Overview</div>
+                <div class="col-12 col-md-9">
+                  <textarea id="project-overview" rows="8" cols="160" wrap="soft" name="project_overview"
+                    class="form-control overview"><%= page_result.data.project.overview %></textarea>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category">Screen</div>
+                <div class="col-12 col-md-9">
+                  <div class="row">
+                    <% let i = 0; %>
+                    <% let j = 0; %>
+                    <% for( i = 0 ; i < screenshot_images.length ; i++) { %>
+                    <% if(screenshot_images[i] !== null) { %>
+                    <% j = j + 1; %>
+                    <div style="padding-left: 16px;">
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input class="form-check-input" id="delete-check-<%= i %>" data-imageno="<%= i %>"
+                            type="checkbox" name="delete-check" value="1">
+                          <span class="form-check-sign"></span>
+                          Delete
+                        </label>
+                      </div>
+                      <img class="screen-image" src="<%= screenshot_url %><%= screenshot_images[i] %>"
+                        style="max-width: 100px; object-fit: contain;"><br>
+                    </div>
+                    <% } %>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category"></div>
+                <div class="col-12 col-md-9">
+                  <span class="btn btn-sm btn-outline-secondary btn-round btn-file">
+                    upload new images
+                    <input type="file" class="form-control" id="upload" accept="image/*" name="project_images"
+                      multiple="multiple" />
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category"></div>
+                <div class="col-12 col-md-9">
+                  <p id="preview"></p>
+                </div>
+              </div>
+              <input type="hidden" name="project_id" value="<%= page_result.data.project.id %>">
+              <input type="hidden" id="project-images-modify" name="project_images_modify">
+            </form>
+            <div class="text-center">
+              <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
+              <button id="edit-project" class="btn btn-warning btn-round" data-toggle="modal" data-target="#myModal">
+                <i class="far fa-save"></i>&nbsp保存
+              </button>
+              <% } %>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+          </div>
+        </div>
+      </div>
+      <div id="modal"></div>
+      <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
+      <!-- fotter -->
+      <footer id="footer" class="footer footer-black  footer-white ">
+      </footer>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="assets/js/core/jquery.min.js"></script>
+    <script>
+      $.getScript("assets/js/vendor/common_sidebar.js", () => {
+        //inherit_sidebar_setting();
+        set_highlight_sidebar('project_list', 'sidebar-project-<%= page_result.data.project.id %>');
+      });
+      $.getScript("assets/js/vendor/common_util.js");
+
+      project_images_modify = [0, 0, 0, 0, 0];
+      project_images_count = <%= j %>;
+      project_preset_image = [0, 0, 0, 0, 0];
+      <% for (i = 0; i < screenshot_images.length; i++) { %>
+      <% if (screenshot_images[i] !== null) { %>
+          project_preset_image[<%= i %>] = 1;
+      <% } %>
+      <% } %>
+
+        $(() => {
+          $("#footer").load("assets/include/footer.html", () => {
+            $("#modal").load("assets/include/modal.html", show_modal_when_onload);
+            $('#upload').uploadThumbs({
+              position: '#preview',
+            });
+          });
+        });
+
+      // show error dialog when load
+      show_modal_when_onload = () => {
+        $.getScript("assets/js/vendor/common_util.js", () => {
+        <% if (error !== undefined && error !== null) { %>
+            $("#load-modal").trigger("click");
+        <% } %>
+        });
+      };
+
+      window.onpageshow = function () {
+        delete_circle_loading();
+      }
+
+      $("#load-modal").click(() => {
+        <% if (error !== undefined && error !== null) { %>
+          create_modal('error (<%= error.status %>_<%= error.code %>)',
+            '<%= error.message %>', 'close', null);
+        <% } %>
+      });
+
+      <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
+        $('#delete-project').click(() => {
+          // set action
+          $('#project-edit').prop("action", "/project_delete_execute");
+          $('#project-edit').removeAttr("enctype");
+          // show dialog
+          execute_delete_project(() => {
+            show_circle_loading();
+            $('#project-edit').submit();
+            remove_modal();
+          });
+        });
+      <% } %>
+
+      <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
+        $('#edit-project').click(() => {
+          // set action
+          $('#project-edit').prop("action", "/project_edit_execute");
+          $('#project-edit').prop("enctype", "multipart/form-data");
+
+          // check argument
+          let title_text = $('#project-name').val();
+          if (!(title_text)) {
+            fail_add_project('title');
+            return;
+          }
+
+          let overview_text = $('#project-overview').val();
+          if (!(overview_text)) {
+            fail_add_project('overview');
+            return;
+          }
+
+          if ($("#upload")[0].files.length > (5 - project_images_count)) {
+            fail_add_project('image');
+            return;
+          }
+
+          let set_image_count = $('input[name="delete-check"]').length;
+          let upload_image_count = $("#upload")[0].files.length;
+
+          for (let i = 0; i < 5; i++) {
+            if (project_preset_image[i] === 1
+              && $("#delete-check-" + String(i)).prop('checked') === true
+              && upload_image_count === 0) {
+              // delete
+              project_images_modify[i] = 3;
+            } else if (project_preset_image[i] === 1
+              && $("#delete-check-" + String(i)).prop('checked') !== true
+              && upload_image_count === 0) {
+              // keep
+              project_images_modify[i] = 0;
+            } else if (project_preset_image[i] === 1
+              && $("#delete-check-" + String(i)).prop('checked') === true
+              && upload_image_count > 0) {
+              // change
+              project_images_modify[i] = 2;
+              upload_image_count = upload_image_count - 1;
+            } else if (project_preset_image[i] === 1
+              && $("#delete-check-" + String(i)).prop('checked') !== true
+              && upload_image_count > 0) {
+              // keep
+              project_images_modify[i] = 0;
+            } else if (project_preset_image[i] === 0
+              && upload_image_count === 0) {
+              // keep
+              project_images_modify[i] = 0;
+            } else if (project_preset_image[i] === 0
+              && upload_image_count > 0) {
+              // add
+              project_images_modify[i] = 1;
+              upload_image_count = upload_image_count - 1;
+            }
+
+          }
+
+          $('#project-images-modify').val(project_images_modify);
+
+          execute_edit_project(() => {
+            show_circle_loading();
+            $('#project-edit').submit();
+            remove_modal();
+          });
+        });
+      <% } %>
+
+        $(".sidebar-redirect").click(() => {
+          show_circle_loading();
+        });
+    </script>
+</body>
+
+</html>

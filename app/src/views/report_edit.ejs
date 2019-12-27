@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Intrapps
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+    name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <!-- CSS Files -->
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+</head>
+
+<body class="">
+  <div id="overlay">
+    <div class="cv-spinner">
+      <span class="spinner"></span>
+    </div>
+  </div>
+  <div class="wrapper ">
+    <!-- sidebar -->
+    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+      <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
+    </div>
+    <div class="main-panel">
+      <!-- navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+              <button id="minimizeSidebar" class="btn btn-icon btn-round">
+                <i class="nc-icon nc-minimal-right text-center visible-on-sidebar-mini"></i>
+                <i class="nc-icon nc-minimal-left text-center visible-on-sidebar-regular"></i>
+              </button>
+            </div>
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a id="navbar-title" class="navbar-brand" href="/report_edit?build_id=<%= build_id %>">プロジェクト編集</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+            aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- body -->
+      <div class="content">
+        <!-- Start of card content -->
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Project setting information -->
+            <form id="comment" method="post" action="/report_edit_execute">
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category">Report</div>
+                <div class="col-12 col-md-9">
+                  <textarea id="report-note" name="report_note" rows="8" cols="160" wrap="soft"
+                    class="form-control overview"><%= note %></textarea>
+                </div>
+              </div>
+              <input type="hidden" id="build-id" name="build_id" value="<%= build_id %>">
+              <% if(report_id !== null) { %>
+              <input type="hidden" id="report-id" name="report_id" value="<%= report_id %>">
+              <% } %>
+            </form>
+          </div>
+          <div class="text-center">
+            <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
+            <button id="save-comment" class="btn btn-warning btn-round" data-toggle="modal" data-target="#myModal">
+              <i class="far fa-save"></i>&nbsp保存
+            </button>
+            <% } %>
+          </div>
+          <div class="card-footer">
+          </div>
+        </div>
+      </div>
+      <div id="modal"></div>
+      <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
+      <!-- fotter -->
+      <footer id="footer" class="footer footer-black  footer-white "></footer>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="assets/js/core/jquery.min.js"></script>
+    <script>
+      $.getScript("assets/js/vendor/common_sidebar.js", () => {
+        inherit_sidebar_setting();
+      });
+      $.getScript("assets/js/vendor/common_util.js");
+
+      $(() => {
+        $("#footer").load("assets/include/footer.html", () => {
+          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
+        });
+      });
+
+      // show error dialog when load
+      show_modal_when_onload = () => {
+        $.getScript("assets/js/vendor/common_util.js", () => {
+        <% if (error !== undefined && error !== null) { %>
+            $("#load-modal").trigger("click");
+        <% } %>
+            window.onpageshow = function () {
+              delete_circle_loading();
+            }
+        });
+      };
+
+      $("#load-modal").click(() => {
+        <% if (error !== undefined && error !== null) { %>
+          create_modal('エラー (<%= error.status %>_<%= error.code %>)',
+            '<%= error.message %>', '閉じる', null);
+        <% } %>
+      });
+
+      <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
+        $('#save-comment').click(() => {
+          let report_text = $('#report-note').val();
+          if (!(report_text)) {
+            failed_add_comment();
+            return;
+          }
+
+          execute_add_comment(() => {
+            show_circle_loading();
+            $("form").submit();
+            remove_modal();
+          });
+
+        });
+      <% } %>
+
+        $(".sidebar-redirect").click(() => {
+          show_circle_loading();
+        });
+    </script>
+</body>
+
+</html>

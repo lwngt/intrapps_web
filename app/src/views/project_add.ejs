@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Intrapps
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+    name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <!-- CSS Files -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+</head>
+
+<body class="">
+  <div id="overlay">
+    <div class="cv-spinner">
+      <span class="spinner"></span>
+    </div>
+  </div>
+  <div class="wrapper ">
+    <!-- sidebar -->
+    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+      <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
+    </div>
+    <div class="main-panel">
+      <!-- navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+              <button id="minimizeSidebar" class="btn btn-icon btn-round">
+                <i class="nc-icon nc-minimal-right text-center visible-on-sidebar-mini"></i>
+                <i class="nc-icon nc-minimal-left text-center visible-on-sidebar-regular"></i>
+              </button>
+            </div>
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a id="navbar-title" class="navbar-brand" href="/project_add">Add project</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+            aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- body -->
+      <div class="content">
+        <!-- Start of card content -->
+        <div class="card">
+          <div class="card-header">
+          </div>
+          <div class="card-body">
+            <!-- Project setting information -->
+            <h6>Project Information</h6>
+            <br>
+            <form id="add-project" method="post" action="/project_add_execute" enctype="multipart/form-data">
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category">Project Name</div>
+                <div class="col-12 col-md-9">
+                  <div class="form-group">
+                    <input id="project-name" name="project_name" type="text" minLength="1" maxLength="30"
+                      class="form-control" required="true">
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category">Overview</div>
+                <div class="col-12 col-md-9">
+                  <div class="form-group">
+                    <textarea id="project-overview" name="project_overview" rows="8" cols="160" wrap="soft"
+                      minLength="0" maxLength="30000" class="form-control overview"></textarea>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category">Screen</div>
+                <div class="col-12 col-md-9">
+                  <p id="preview"></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category"></div>
+                <div class="col-12 col-md-9">
+                  <div class="form-group">
+                    <span class="btn btn-sm btn-outline-secondary btn-round btn-file">
+                      images
+                      <input type="file" class="form-control" id="upload" accept="image/*" name="project_images"
+                        multiple="multiple" />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="text-center">
+              <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
+              <button id="save-project" class="btn btn-warning btn-round" data-toggle="modal" data-target="#myModal">
+                <i class="far fa-save"></i>&nbspsave
+              </button>
+              <% } %>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+          </div>
+        </div>
+      </div>
+      <div id="modal"></div>
+      <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
+      <!-- fotter -->
+      <footer id="footer" class="footer footer-black  footer-white ">
+      </footer>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="assets/js/core/jquery.min.js"></script>
+    <script src="assets/js/plugins/jquery.validate.min.js"></script>
+    <script>
+      $.getScript("assets/js/vendor/common_sidebar.js", () => {
+        inherit_sidebar_setting();
+      });
+      $.getScript("assets/js/vendor/common_validation.js");
+
+      $(() => {
+        $("#footer").load("assets/include/footer.html", () => {
+          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
+          $('#upload').uploadThumbs({
+            position: '#preview',
+          });
+          set_form_validation('#add-project');
+        });
+      });
+
+      // show error dialog when load
+      show_modal_when_onload = () => {
+        $.getScript("assets/js/vendor/common_util.js", () => {
+        <% if (error !== undefined && error !== null) { %>
+            $("#load-modal").trigger("click");
+        <% } %>
+            window.onpageshow = function () {
+              delete_circle_loading();
+            }
+        });
+      };
+
+      $("#load-modal").click(() => {
+        <% if (error !== undefined && error !== null) { %>
+          create_modal('error (<%= error.status %>_<%= error.code %>)',
+            '<%= error.message %>', 'close', null);
+        <% } %>
+      });
+
+      <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
+        $('#save-project').click(() => {
+          $('#upload').closest('.form-group').find('label').remove();
+          // check
+          $('#add-project').valid();
+          if ($("#upload")[0].files.length > 5) {
+            fail_add_project('image');
+            return;
+          }
+
+          if (check_validation_result($("#project-name"))) {
+            execute_add_project(() => {
+              $('#add-project').submit();
+              remove_modal();
+              show_circle_loading();
+            });
+          }
+        });
+      <% } %>
+
+        set_form_validation = (id) => {
+          $(id).validate({
+            highlight: function (element) {
+              $(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
+              $(element).closest('.form-check').removeClass('has-success').addClass('has-danger');
+            },
+            success: function (element) {
+              $(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+              $(element).closest('.form-check').removeClass('has-danger').addClass('has-success');
+              $(element).closest('.form-group').find('label').remove();
+            },
+            errorPlacement: function (error, element) {
+              $(element).closest('.form-group').find('label').remove();
+              $(element).closest('.form-group').append(error);
+            },
+          });
+        };
+
+      $(".sidebar-redirect").click(() => {
+        show_circle_loading();
+      });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+{
+  "api_log_output": false,
+  "development": {
+    "web": {
+      "web_root": "http://web-app:3030/"
+    },
+    "api": {
+      "api_server": "https://intrapps_api_nginx_container:8181/api",
+      "api_server_image": {
+        "SCREENSHOT": "https://localhost:8181/images/screenshot/",
+        "ICON": "https://localhost:8181/images/icon/"
+      },
+      "api_server_files": {
+        "PLIST": "https://localhost:8181/files/plist/",
+        "APK": "https://localhost:8181/files/apk/"
+      },
+      "kind": {
+        "signup": "/signup",
+        "signup_confirm": "/signup_confirm",
+        "login": "/login",
+        "login_check": "/login_check",
+        "latest": "/latest",
+        "add_report": "/add_report",
+        "edit_report": "/edit_report",
+        "delete_report": "/delete_report",
+        "projects": "/projects",
+        "add_project": "/add_project",
+        "project": "/project",
+        "edit_project": "/edit_project",
+        "delete_project": "/delete_project",
+        "building": "/building",
+        "add_building": "/add_building",
+        "edit_building": "/edit_building",
+        "delete_building": "/delete_building",
+        "users": "/users",
+        "user": "/user",
+        "add_user": "/add_user",
+        "edit_user": "/edit_user",
+        "delete_user": "/delete_user",
+        "vendor": "/vendor",
+        "edit_vendor": "/edit_vendor",
+        "delete_vendor": "/delete_vendor"
+      }
+    },
+    "storage": {
+      "base": "/work/public",
+      "local": {
+        "IMAGE": "/image",
+        "APP": "/app"
+      }
+    }
+  },
+  "production": {
+    "web": {
+      "web_root": "http://web-app:3030/"
+    },
+    "api": {
+      "api_server": "https://intrapps_api_nginx_container:8181/api",
+      "api_server_image": {
+        "SCREENSHOT": "https://localhost:8181/images/screenshot/",
+        "ICON": "https://localhost:8181/images/icon/"
+      },
+      "api_server_files": {
+        "PLIST": "https://localhost:8181/files/plist/",
+        "APK": "https://localhost:8181/files/apk/"
+      },
+      "kind": {
+        "signup": "/signup",
+        "signup_confirm": "/signup_confirm",
+        "login": "/login",
+        "login_check": "/login_check",
+        "latest": "/latest",
+        "add_report": "/add_report",
+        "edit_report": "/edit_report",
+        "delete_report": "/delete_report",
+        "projects": "/projects",
+        "add_project": "/add_project",
+        "project": "/project",
+        "edit_project": "/edit_project",
+        "delete_project": "/delete_project",
+        "building": "/building",
+        "add_building": "/add_building",
+        "delete_building": "/delete_building",
+        "users": "/users",
+        "user": "/user",
+        "add_user": "/add_user",
+        "edit_user": "/edit_user",
+        "delete_user": "/delete_user",
+        "vendor": "/vendor",
+        "edit_vendor": "/edit_vendor",
+        "delete_vendor": "/delete_vendor"
+      }
+    },
+    "storage": {
+      "base": "/work/public",
+      "local": {
+        "IMAGE": "/image",
+        "APP": "/app"
+      }
+    }
+  }
+}
