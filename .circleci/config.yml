@@ -4,7 +4,6 @@ jobs:
     machine: true
     branches:
       only:
-        - future_circleci
         - release
     steps:
       - checkout
