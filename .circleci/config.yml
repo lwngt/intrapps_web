@@ -1,0 +1,53 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    branches:
+      only:
+        - future_circleci
+        - release
+    steps:
+      - checkout
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.25.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run:
+          name: docker network create intrapps_network
+          command: |
+            docker network create intrapps_network
+      - run:
+          name: docker-compose up
+          command: |
+            set -x
+            docker-compose up --build -d
+      - run:
+          name: docker-compose stop
+          command: |
+            set -x
+            docker-compose stop
+      - run:
+          name: docker-compose up
+          command: |
+            set -x
+            docker-compose up -d
+      - run:
+          name: Tag to latest
+          command: |
+            export API_IMAGE_TAG=`grep intrapps_web_image docker-compose.yml | awk '{print $2}' | sed s/:/\ / | awk '{print $2}'`
+            export NGINX_IMAGE_TAG=`grep intrapps_web_nginx_image docker-compose.yml | awk '{print $2}' | sed s/:/\ / | awk '{print $2}'`
+            docker tag `docker images | grep intrapps_web_image | awk '{print $3}'` intrapps/intrapps_web:${API_IMAGE_TAG}
+            docker tag `docker images | grep intrapps_web_nginx_image | awk '{print $3}'` intrapps/intrapps_web_nginx:${NGINX_IMAGE_TAG}
+            docker images
+      - run:
+          name: Docker Login
+          command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+      - run:
+          name: Push image to registory
+          command: |
+            export API_IMAGE_TAG=`grep intrapps_web_image docker-compose.yml | awk '{print $2}' | sed s/:/\ / | awk '{print $2}'`
+            export NGINX_IMAGE_TAG=`grep intrapps_web_nginx_image docker-compose.yml | awk '{print $2}' | sed s/:/\ / | awk '{print $2}'`
+            docker push intrapps/intrapps_web:${API_IMAGE_TAG}
+            docker push intrapps/intrapps_web_nginx:${NGINX_IMAGE_TAG}
