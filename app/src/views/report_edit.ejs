@@ -50,7 +50,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a id="navbar-title" class="navbar-brand" href="/report_edit?build_id=<%= build_id %>">プロジェクト編集</a>
+            <a id="navbar-title" class="navbar-brand" href="/report_edit?build_id=<%= build_id %>">Edit project</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
             aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,7 +87,7 @@
           <div class="text-center">
             <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
             <button id="save-comment" class="btn btn-warning btn-round" data-toggle="modal" data-target="#myModal">
-              <i class="far fa-save"></i>&nbsp保存
+              <i class="far fa-save"></i>&nbspSave
             </button>
             <% } %>
           </div>
@@ -128,8 +128,8 @@
 
       $("#load-modal").click(() => {
         <% if (error !== undefined && error !== null) { %>
-          create_modal('エラー (<%= error.status %>_<%= error.code %>)',
-            '<%= error.message %>', '閉じる', null);
+          create_modal('error (<%= error.status %>_<%= error.code %>)',
+            '<%= error.message %>', 'close', null);
         <% } %>
       });
 

@@ -247,8 +247,8 @@
 
       $("#load-modal").click(() => {
         <% if (error !== undefined && error !== null) { %>
-          create_modal('エラー (<%= error.status %>_<%= error.code %>)',
-            '<%= error.message %>', '閉じる', null);
+          create_modal('error (<%= error.status %>_<%= error.code %>)',
+            '<%= error.message %>', 'close', null);
         <% } %>
       });
 
