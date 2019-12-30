@@ -67,9 +67,8 @@
               </div>
               <div class=" col-2 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.management_delete !== 0) { %>
-                <button id="delete-vendor" class="btn btn-default btn-icon btn-sm" data-toggle="modal"
-                  data-target="#myModal">
-                  <i class=" nc-icon nc-simple-remove"></i>
+                <button id="delete-vendor" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal">
+                  <i class=" nc-icon nc-simple-remove"></i>&nbsp&nbspDelete
                 </button>
                 <% } %>
               </div>
@@ -94,7 +93,7 @@
                     <div>
                       <% if( Array.isArray(page_result.data.admin_users) ) { %>
                       <select class="selectpicker" name="contractor_user_id"
-                        data-size="<%= page_result.data.admin_users.maxLength %>" data-style="btn btn-default"
+                        data-size="<%= page_result.data.admin_users.maxLength %>" data-style="btn btn-round btn-default"
                         title="user">
                         <% page_result.data.admin_users.forEach(user => { %>
                         <option value="<%= user.id%>"><%= user.name %></option>
@@ -181,9 +180,9 @@
             </form>
             <% if (page_result.data.sidebar.user_information.authority_content.management_edit !== 0) { %>
             <div class="text-center">
-              <button id="save-vendor" class="btn btn-warning btn-round save-user-data" data-toggle="modal"
+              <button id="save-vendor" class="btn btn-danger btn-round save-user-data" data-toggle="modal"
                 data-target="#myModal">
-                <i class="nc-icon nc-check-2"></i>&nbspsave
+                <i class="nc-icon nc-check-2"></i>&nbsp&nbspsave
               </button>
             </div>
             <% } %>

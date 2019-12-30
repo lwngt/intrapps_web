@@ -86,14 +86,8 @@
               <div class="row">
                 <div class="card-category col-12 col-md-3 card-category">Screen</div>
                 <div class="col-12 col-md-9">
-                  <p id="preview"></p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="card-category col-12 col-md-3 card-category"></div>
-                <div class="col-12 col-md-9">
                   <div class="form-group">
-                    <span class="btn btn-sm btn-outline-secondary btn-round btn-file">
+                    <span class="btn btn-outline-secondary btn-round btn-file">
                       images
                       <input type="file" class="form-control" id="upload" accept="image/*" name="project_images"
                         multiple="multiple" />
@@ -101,10 +95,16 @@
                   </div>
                 </div>
               </div>
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category"></div>
+                <div class="col-12 col-md-9">
+                  <p id="preview"></p>
+                </div>
+              </div>
             </form>
             <div class="text-center">
               <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
-              <button id="save-project" class="btn btn-warning btn-round" data-toggle="modal" data-target="#myModal">
+              <button id="save-project" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal">
                 <i class="nc-icon nc-check-2"></i>&nbspsave
               </button>
               <% } %>

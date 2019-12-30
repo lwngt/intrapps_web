@@ -56,7 +56,7 @@
           </div>
           <% if (page_result.data.sidebar.user_information.authority_content.management_add !== 0) { %>
           <button class="add btn btn-default btn-round">
-            <i class="nc-icon nc-circle-10"></i> add user
+            <i class="nc-icon nc-simple-add"></i> add user
           </button>
           <% } %>
         </div>
@@ -76,12 +76,12 @@
             <table id="datatable-user" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th class="text-center">User #</th>
-                  <th class="disabled-sorting text-center">Detail</th>
+                  <th class="disabled-sorting text-center"></th>
+                  <th class="text-center" style="max-width: 20px;">#</th>
                   <th class="text-center">User name</th>
                   <th class="text-center">Name</th>
                   <th class="text-center">Authority</th>
-                  <th class="text-center">Email</th>
+                  <th class="text-center" style="max-width: 200px;">Email</th>
                   <th class="text-center">Validation</th>
                   <th class="text-center">Create</th>
                   <th class="text-center">Update</th>
@@ -91,16 +91,16 @@
                 <% if(Array.isArray(page_result.data.users)) { %>
                 <% page_result.data.users.forEach(user => { %>
                 <tr>
-                  <td><%= user.id %></td>
                   <td class="text-center">
-                    <button class="btn btn-warning btn-icon btn-sm edit user-detail" data-userid="<%= user.id %>">
-                      <i class="nc-icon nc-settings-gear-65"></i>
+                    <button class="btn btn-btn-default btn-icon btn-sm edit user-detail" data-userid="<%= user.id %>">
+                      <i class="nc-icon nc-settings"></i>
                     </button>
                   </td>
+                  <td><%= user.id %></td>
                   <td><%= user.name %></td>
                   <td><%= user.last_and_first_name %></td>
                   <td><%= user.authority %></td>
-                  <td><%= user.email %></td>
+                  <td style="max-width: 200px;"><%= user.email %></td>
                   <td>
                     <% if( Number(user.verified) === 1 ) { %>
                     done

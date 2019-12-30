@@ -46,7 +46,7 @@
                 <br>
               </div>
               <div class="card-footer text-center">
-                <button id="user-confirm" class="btn btn-warning btn-round mb-3 px-auto">
+                <button id="user-confirm" class="btn btn-danger btn-round mb-3 px-auto">
                   Next
                 </button>
               </div>
@@ -76,6 +76,7 @@
         $page.append(image_container);
       }
       $("#modal").load("assets/include/modal.html");
+      $.getScript("assets/js/vendor/common_util.js");
     });
 
     $("#user-confirm").click(() => {

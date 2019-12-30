@@ -74,9 +74,8 @@
               </div>
               <div class="col-6  col-md-6 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
-                <button class="btn btn-default btn-icon btn-sm project_edit"
-                  data-id="<%= page_result.data.project.id %>">
-                  <i class="nc-icon nc-settings-gear-65"></i>
+                <button class="btn btn-default btn-round project_edit" data-id="<%= page_result.data.project.id %>">
+                  <i class="nc-icon nc-settings-gear-65"></i>&nbsp&nbspEdit
                 </button>
                 <% } %>
               </div>
@@ -140,12 +139,12 @@
             <table id="datatable" class="table table-striped table-bordered dt-responsive">
               <thead>
                 <tr>
-                  <th class="text-center">Build #</th>
+                  <th class="disabled-sorting text-center"></th>
+                  <th class="text-center" style="max-width: 20px;">#</th>
                   <th class="text-center">OS</th>
-                  <th class="disabled-sorting text-center">detail</th>
                   <th class="disabled-sorting text-center">icon</th>
                   <th class="text-center">App title</th>
-                  <th class="text-center">App ver</th>
+                  <th class="text-center" style="max-width: 60px;">App ver</th>
                   <th class="text-center">Bundle Id<br>Package Name</th>
                   <th class="text-center">Upload date</th>
                 </tr>
@@ -157,39 +156,39 @@
                 <% build_histories.forEach( build_history => { %>
                 <% if(build_history.kind === 0) { %>
                 <tr>
-                  <td class="build-no"><%= build_history.id %></td>
-                  <td class="build-os">iOS</td>
                   <td class="text-center">
-                    <button class="btn btn-warning btn-icon btn-sm detail" data-buildid="<%= build_history.id %>">
-                      <i class="nc-icon nc-settings-gear-65"></i>
+                    <button class="btn btn-default btn-icon btn-sm detail" data-buildid="<%= build_history.id %>">
+                      <i class="nc-icon nc-settings"></i>
                     </button>
                   </td>
-                  <td>
+                  <td class="build-no" style="max-width: 20px;"><%= build_history.id %></td>
+                  <td class="build-os">iOS</td>
+                  <td class="text-center">
                     <% if(build_history.icon !== null) { %>
                     <img class="app-icon" src="<%= icon %><%= build_history.icon %>">
                     <% } %>
                   </td>
                   <td><%= build_history.app_name %></td>
-                  <td><%= build_history.current_version %></td>
+                  <td style="max-width: 60px;"><%= build_history.current_version %></td>
                   <td><%= build_history.bundle_id %></td>
                   <td id="upload-date-<%= build_history.id %>"></td>
                 </tr>
                 <% } else {%>
                 <tr>
-                  <td class="build-no"><%= build_history.id %></td>
-                  <td class="build-os">Android</td>
                   <td class="text-center">
-                    <button class="btn btn-warning btn-icon btn-sm detail" data-buildid="<%= build_history.id %>">
-                      <i class="nc-icon nc-settings-gear-65"></i>
+                    <button class="btn btn-default btn-icon btn-sm detail" data-buildid="<%= build_history.id %>">
+                      <i class="nc-icon nc-settings"></i>
                     </button>
                   </td>
-                  <td>
+                  <td class="build-no" style="max-width: 20px;"><%= build_history.id %></td>
+                  <td class="build-os">Android</td>
+                  <td class="text-center">
                     <% if(build_history.icon !== null) { %>
                     <img class="app-icon" src="<%= icon %><%= build_history.icon %>">
                     <% } %>
                   </td>
                   <td><%= build_history.app_name %></td>
-                  <td><%= build_history.current_version %></td>
+                  <td style="max-width: 60px;"><%= build_history.current_version %></td>
                   <td><%= build_history.package_name %></td>
                   <td id="upload-date-<%= build_history.id %>"></td>
                 </tr>

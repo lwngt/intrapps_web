@@ -60,9 +60,9 @@
               </div>
               <% if (page_result.data.sidebar.user_information.authority_content.management_delete !== 0) { %>
               <div class="col-6 text-right">
-                <button id="delete-user" class="btn btn-default btn-icon btn-sm"
-                  data-userid="<%= page_result.data.user.id %>" data-toggle="modal" data-target="#myModal">
-                  <i class=" nc-icon nc-simple-remove"></i>
+                <button id="delete-user" class="btn btn-default btn-round" data-userid="<%= page_result.data.user.id %>"
+                  data-toggle="modal" data-target="#myModal">
+                  <i class=" nc-icon nc-simple-remove"></i>&nbsp&nbspdelete user
                 </button>
               </div>
               <% } %>
@@ -128,8 +128,8 @@
               <div class="row d-flex align-items-center">
                 <div class="card-category col-3 card-category">Authority</div>
                 <div class="col-9">
-                  <select class="selectpicker" name="user_authority" data-size="3" data-style="btn btn-default"
-                    title="authority">
+                  <select class="selectpicker" name="user_authority" data-size="3"
+                    data-style="btn btn-round btn-default" title="authority">
                     <!-- admin -->
                     <% if(page_result.data.user.authority_type === 0) { %>
                     <option value="0" selected>admin</option>
@@ -211,8 +211,8 @@
             <% if(page_result.data.sidebar.user_information.authority_content.management_edit !== 0) { %>
             <br>
             <div class="text-center">
-              <button class="btn btn-warning btn-round" id="save-user-data">
-                <i class="nc-icon nc-check-2"></i>&nbspsave
+              <button class="btn btn-danger btn-round" id="save-user-data">
+                <i class="nc-icon nc-check-2"></i>&nbsp&nbspsave
               </button>
             </div>
             <% } %>

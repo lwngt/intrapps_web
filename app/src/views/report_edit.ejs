@@ -50,12 +50,6 @@
             </div>
             <a id="navbar-title" class="navbar-brand" href="/report_edit?build_id=<%= build_id %>">Edit project</a>
           </div>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
-            aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-          </button>
         </div>
       </nav>
       <!-- body -->
@@ -84,8 +78,8 @@
           </div>
           <div class="text-center">
             <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
-            <button id="save-comment" class="btn btn-warning btn-round" data-toggle="modal" data-target="#myModal">
-              <i class="nc-icon nc-check-2"></i>&nbspSave
+            <button id="save-comment" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal">
+              <i class="nc-icon nc-check-2"></i>&nbsp&nbspSave
             </button>
             <% } %>
           </div>

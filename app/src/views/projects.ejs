@@ -76,24 +76,24 @@
             <table id="datatable-projects" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
                 <tr>
+                  <th class="disabled-sorting text-center" style="max-width: 30px;"></th>
                   <th class="text-center" style="max-width: 20px;">#</th>
                   <th class="text-center" style="min-width: 100px;">App title</th>
                   <th class="text-center" style="min-width: 200px;">Overview</th>
-                  <th class="disabled-sorting text-center" style="max-width: 30px;">Detail</th>
                 </tr>
               </thead>
               <tbody>
                 <%     page_result.data.projects.forEach( project => { %>
                 <tr>
-                  <td class="project-no"><%= project.project_id %></td>
-                  <td><%= project.project_name %></td>
-                  <td><%= project.project_overview %></td>
-                  <td class="text-center">
+                  <td class="text-center" style="max-width: 30px;">
                     <button data-projectid="<%= project.project_id %>"
-                      class="btn btn-warning btn-icon btn-sm edit project-detail">
-                      <i class="nc-icon nc-settings-gear-65"></i>
+                      class="btn btn-default btn-icon btn-sm edit project-detail">
+                      <i class="nc-icon nc-settings"></i>
                     </button>
                   </td>
+                  <td class="project-no" style="max-width: 20px;"><%= project.project_id %></td>
+                  <td style="min-width: 100px;"><%= project.project_name %></td style="min-width: 100px;">
+                  <td style="min-width: 200px;"><%= project.project_overview %></td style="min-width: 200px;">
                 </tr>
                 <%     });  %>
               </tbody>

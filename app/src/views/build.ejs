@@ -57,11 +57,6 @@
           </div>
           <div class="collapse navbar-collapse justify-content-first" id="navigation">
           </div>
-          <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
-          <button id="add-build" class="btn top-button-margin btn-round" style="margin-top: 0px; margin-bottom: 0px;">
-            <i class="nc-icon nc-simple-add"></i> add app
-          </button>
-          <% } %>
       </nav>
       <!-- body -->
       <div class="content">
@@ -93,9 +88,9 @@
               <!-- edit -->
               <div class="col-6 col-md-2 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
-                <button class="btn btn-default btn-icon btn-sm build-edit"
+                <button class="btn btn-default btn-round build-edit"
                   data-buildid="<%= page_result.data.building.build_id %>">
-                  <i class="nc-icon nc-settings-gear-65"></i>
+                  <i class="nc-icon nc-settings-gear-65"></i>&nbspEdit
                 </button>
                 <% } %>
               </div>
@@ -113,11 +108,11 @@
             <div class="row">
               <div class="col-12 col-md-12 text-center">
                 <% if(page_result.data.building.type === 0) { %>
-                <button class="btn btn-danger install-button" data-ostype="ios"
+                <button class="btn btn-danger btn-round install-button" data-ostype="ios"
                   data-enabled="<%= page_result.data.building.application.enabled %>"
                   data-filename="<%= page_result.data.building.application.plist_name %>">
                   <% } else { %>
-                  <button class="btn btn-danger install-button" data-ostype="android"
+                  <button class="btn btn-danger btn-round install-button" data-ostype="android"
                     data-enabled="<%= page_result.data.building.application.enabled %>"
                     data-filename="<%= page_result.data.building.application.file_name %>">
                     <% }%>
@@ -198,7 +193,7 @@
               </div>
               <div class="col-6 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
-                <button class="btn btn-default btn-round btn-sm report-add"
+                <button class="btn btn-default btn-sm report-add"
                   data-buildid="<%= page_result.data.building.build_id %>">
                   <i class="nc-icon nc-simple-add"></i> add report
                 </button>
@@ -217,16 +212,15 @@
                   </div>
                   <div class="col-5 text-right">
                     <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
-                    <button class="btn btn-default btn-icon btn-sm report-edit"
-                      data-buildid="<%= report_item.build_id %>" data-reportid="<%= report_item.report_id %>">
-                      <i class="nc-icon nc-settings-gear-65"></i>
+                    <button class="btn btn-default btn-sm report-edit" data-buildid="<%= report_item.build_id %>"
+                      data-reportid="<%= report_item.report_id %>">
+                      <i class="nc-icon nc-settings-gear-65"></i>&nbspEdit
                     </button>
                     <% } %>
                     <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
-                    <button class="btn btn-default btn-icon btn-sm report-remove"
-                      data-buildid="<%= report_item.build_id %>" data-reportid="<%= report_item.report_id %>"
-                      data-toggle="modal" data-target="#myModal">
-                      <i class=" nc-icon nc-simple-remove"></i>
+                    <button class="btn btn-default btn-sm report-remove" data-buildid="<%= report_item.build_id %>"
+                      data-reportid="<%= report_item.report_id %>" data-toggle="modal" data-target="#myModal">
+                      <i class=" nc-icon nc-simple-remove"></i>&nbspDelete
                     </button>
                     <% } %>
                   </div>
@@ -327,9 +321,22 @@
     <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
       $('.report-edit').click((event) => {
         show_circle_loading();
-        let build_id = event.target.parentNode.dataset.buildid;
-        let comment_id = event.target.parentNode.dataset.reportid;
-        window.location.href = "/report_edit?build_id=" + build_id + "&report_id=" + comment_id;
+        let build_id = null;
+        let report_id = null;
+
+        if (event.target.dataset.buildid !== undefined) {
+          build_id = event.target.dataset.buildid;
+        } else {
+          build_id = event.target.parentNode.dataset.buildid;
+        }
+
+        if (event.target.dataset.reportid !== undefined) {
+          report_id = event.target.dataset.reportid;
+        } else {
+          report_id = event.target.parentNode.dataset.reportid;
+        }
+
+        window.location.href = "/report_edit?build_id=" + build_id + "&report_id=" + report_id;
       });
     <% } %>
 
@@ -337,9 +344,22 @@
       $('.report-remove').click((event) => {
         execute_delete_comment(() => {
           show_circle_loading();
-          let build_id = event.target.parentNode.dataset.buildid;
+          let build_id = null;
+          let report_id = null;
+
+          if (event.target.dataset.buildid !== undefined) {
+            build_id = event.target.dataset.buildid;
+          } else {
+            build_id = event.target.parentNode.dataset.buildid;
+          }
+
+          if (event.target.dataset.reportid !== undefined) {
+            report_id = event.target.dataset.reportid;
+          } else {
+            report_id = event.target.parentNode.dataset.reportid;
+          }
+
           $('#remove-build-id').val(build_id);
-          let report_id = event.target.parentNode.dataset.reportid;
           $('#remove-report-id').val(report_id);
           $('#remove-report-comment').submit();
           remove_modal();
