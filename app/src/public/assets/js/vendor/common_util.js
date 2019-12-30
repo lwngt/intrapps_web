@@ -98,15 +98,15 @@ var execute_delete_comment = (callback) => {
 };
 
 var execute_signup = (callback) => {
-  create_modal('Register the user', 'Perform user registration. Is it OK?', 'execute', callback);
+  create_modal('sign up the user', 'Perform user registration. Is it OK?', 'execute', callback);
 };
 
 var execute_confirm = (callback) => {
-  create_modal('Register the user', 'Confirm verification code. Is it OK?', 'execute', callback);
+  create_modal('sign up the user', 'Confirm verification code. Is it OK?', 'execute', callback);
 };
 
 var failed_execute_confirm = () => {
-  create_modal('Register the user', 'There are some error in registration.', 'ok', null);
+  create_modal('sign up the user', 'There are some error in registration.', 'ok', null);
 };
 
 var execute_save_vendor = (callback) => {
