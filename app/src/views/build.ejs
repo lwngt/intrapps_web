@@ -59,7 +59,7 @@
           </div>
           <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
           <button id="add-build" class="btn top-button-margin btn-round" style="margin-top: 0px; margin-bottom: 0px;">
-            <i class="fa fa-plus"></i> add app
+            <i class="nc-icon nc-simple-add"></i> add app
           </button>
           <% } %>
       </nav>
@@ -95,7 +95,7 @@
                 <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
                 <button class="btn btn-default btn-icon btn-sm build-edit"
                   data-buildid="<%= page_result.data.building.build_id %>">
-                  <i class="fa fa-edit"></i>
+                  <i class="nc-icon nc-settings-gear-65"></i>
                 </button>
                 <% } %>
               </div>
@@ -219,7 +219,7 @@
                     <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
                     <button class="btn btn-default btn-icon btn-sm report-edit"
                       data-buildid="<%= report_item.build_id %>" data-reportid="<%= report_item.report_id %>">
-                      <i class="fa fa-edit"></i>
+                      <i class="nc-icon nc-settings-gear-65"></i>
                     </button>
                     <% } %>
                     <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
