@@ -36,7 +36,8 @@
             <div class="card">
               <div class="card-header" style="text-align: center; margin-top: 10px; margin-bottom: -20px;">
                 <h3>Intrapps</h3>
-                <h6 class="step-3 text-center" style="color: red; display: none;">ユーザー登録内容を確認してください。</h6>
+                <h6 class="step-3 text-center" style="color: red; display: none;">Check the user registration details.
+                </h6>
               </div>
               <div class="card-body">
                 <form id="RegisterValidation" name="RegisterValidation" method="post" action="/signup_execute">
@@ -282,8 +283,8 @@
     };
     $("#load-modal").click(() => {
       <% if (req.session.error !== undefined) { %>
-        create_modal('エラー (<%= req.session.error.status %>_<%= req.session.error.code %>)',
-          '<%= req.session.error.message %>', '閉じる', null);
+        create_modal('error (<%= req.session.error.status %>_<%= req.session.error.code %>)',
+          '<%= req.session.error.message %>', 'close', null);
       <% } %>
     });
 

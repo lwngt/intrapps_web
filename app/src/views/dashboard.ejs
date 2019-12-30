@@ -198,7 +198,7 @@
               <div class="col-6 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
                 <button class="btn btn-default btn-round btn-sm report-add" data-buildid="<%= item.build_id %>">
-                  <i class="nc-icon nc-simple-add"></i> レポート追加
+                  <i class="nc-icon nc-simple-add"></i> add report
                 </button>
                 <% } %>
               </div>
@@ -325,8 +325,8 @@
 
     $("#load-modal").click(() => {
       <% if (error !== undefined && error !== null) { %>
-        create_modal('エラー (<%= error.status %>_<%= error.code %>)',
-          '<%= error.message %>', '閉じる', null);
+        create_modal('error (<%= error.status %>_<%= error.code %>)',
+          '<%= error.message %>', 'close', null);
       <% } %>
     });
 

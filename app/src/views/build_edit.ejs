@@ -119,7 +119,7 @@
           <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
           <div class="text-center">
             <button id="update-build" class="btn btn-warning btn-round" data-toggle="modal" data-target="#myModal">
-              <i class="far fa-save"></i>&nbsp保存
+              <i class="far fa-save"></i>&nbspSave
             </button>
           </div>
           <% } %>
@@ -160,8 +160,8 @@
 
       $("#load-modal").click(() => {
           <% if (error !== undefined && error !== null) { %>
-          create_modal('エラー (<%= error.status %>_<%= error.code %>)',
-            '<%= error.message %>', '閉じる', null);
+          create_modal('error (<%= error.status %>_<%= error.code %>)',
+            '<%= error.message %>', 'close', null);
           <% } %>
           });
 

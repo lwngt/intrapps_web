@@ -32,23 +32,23 @@ var create_modal = (title, body, button_name, button_callback) => {
 };
 
 var set_delete_user_modal = (callback) => {
-  create_modal('ユーザー削除', 'このユーザーを削除してよろしいですか？', '実行', callback);
+  create_modal('Delete user', 'Are you sure you want to delete this user?', 'execute', callback);
 };
 
 var set_reset_user_password_modal = (callback) => {
-  create_modal('ユーザーパスワードリセット', 'パスワードをリセットしてよろしいですか？', '実行', callback);
+  create_modal('Reset password', 'Are you sure you want to reset the password?', 'execute', callback);
 };
 
 var set_save_user_information_modal = (callback) => {
-  create_modal('ユーザーデータ保存', '保存してよろしいですか？', '実行', callback);
+  create_modal('Save user\'s data', 'Are you sure you want to save?', 'execute', callback);
 };
 
 var execute_delete_projects = (callback) => {
-  create_modal('プロジェクト削除', '選択したプロジェクトを削除してよろしいですか？', '実行', callback);
+  create_modal('Delete the project', 'Are you sure you want to delete this project?', 'execute', callback);
 }
 
 var execute_cancel_contract = (callback) => {
-  create_modal('契約解除', '全てのデータは削除されます。契約を解除してよろしいですか？', '実行', callback);
+  create_modal('Delete all the vendor\'s data', 'You can delete all the vendor\'s data. Are you sure you want to delete all data?', 'execute', callback);
 }
 
 var fail_add_project = (item) => {
@@ -62,15 +62,15 @@ var fail_add_build = (item) => {
 }
 
 var execute_add_project = (callback) => {
-  create_modal('プロジェクト保存', 'プロジェクトを保存します。よろしいですか？', '実行', callback);
+  create_modal('Add the project', 'You can add project for apps. Are you sure you want to add?', 'execute', callback);
 }
 
 var execute_edit_project = (callback) => {
-  create_modal('プロジェクト保存', 'プロジェクトを保存します。よろしいですか？', '実行', callback);
+  create_modal('Save the project', 'You can save the project setting. Are you sure you want to save?', 'execute', callback);
 }
 
 var execute_delete_project = (callback) => {
-  create_modal('プロジェクト削除', 'プロジェクトを削除します。関連するアプリも削除されます。よろしいですか？', '実行', callback);
+  create_modal('Delete the project', 'You can delete the project. Are you sure you want to delete?', 'execute', callback);
 }
 
 var execute_update_build = (callback) => {
@@ -78,35 +78,35 @@ var execute_update_build = (callback) => {
 };
 
 var execute_add_build = (callback) => {
-  create_modal('save the app', 'Are you sure you add the application ?', 'execute', callback);
+  create_modal('Add the app', 'Are you sure you add the application?', 'execute', callback);
 };
 
 var execute_delete_build = (callback) => {
-  create_modal('アプリ削除', 'アプリを削除してよろしいですか？', '実行', callback);
+  create_modal('Delete the app', 'Are you sure you delete the application?', 'execute', callback);
 }
 
 var failed_add_comment = () => {
-  create_modal('コメント保存', 'コメントの保存に失敗しました', '実行', null);
+  create_modal('Failed to save the comment', 'You failed to save the comment.', 'ok', null);
 };
 
 var execute_add_comment = (callback) => {
-  create_modal('コメント保存', 'コメントを保存します。よろしいですか？', '実行', callback);
+  create_modal('Save the comment', 'Are you sure you want to save the comment?', 'execute', callback);
 }
 
 var execute_delete_comment = (callback) => {
-  create_modal('コメント削除', 'コメントを削除します。よろしいですか？', '実行', callback);
+  create_modal('Delete the comment', 'Are you sure you want to delete the comment?', 'execute', callback);
 };
 
 var execute_signup = (callback) => {
-  create_modal('ユーザー登録', 'ユーザー登録を行います。よろしいですか？', '実行', callback);
+  create_modal('Register the user', 'Perform user registration. Is it OK?', 'execute', callback);
 };
 
 var execute_confirm = (callback) => {
-  create_modal('ユーザー登録', '検証コードの確認を行います。よろしいですか？', '実行', callback);
+  create_modal('Register the user', 'Confirm verification code. Is it OK?', 'execute', callback);
 };
 
 var failed_execute_confirm = () => {
-  create_modal('ユーザー登録', '入力にエラーがあります。', '閉じる', null);
+  create_modal('Register the user', 'There are some error in registration.', 'ok', null);
 };
 
 var execute_save_vendor = (callback) => {
@@ -118,7 +118,7 @@ var execute_delete_vendor = (callback) => {
 };
 
 var not_to_download_application = () => {
-  create_modal('アプリダウンロード', 'このアプリはダウンロードを停止しています。', '閉じる', null);
+  create_modal('Stop downloading', 'This app has stopped downloading.', 'close', null);
 };
 
 var remove_modal = () => {
