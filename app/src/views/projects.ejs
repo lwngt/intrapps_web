@@ -150,7 +150,12 @@
 
       $('.project-detail').on('click', (event) => {
         show_circle_loading();
-        let project_id = event.target.parentNode.dataset.projectid;
+        let project_id = null;
+        if (event.target.dataset.projectid !== undefined) {
+          project_id = event.target.dataset.projectid;
+        } else {
+          project_id = event.target.parentNode.dataset.projectid;
+        }
         redirect_page(project_id);
       });
 

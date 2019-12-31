@@ -353,7 +353,12 @@
     <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
       $(".build-edit").click(function (event) {
         show_circle_loading();
-        let build_id = event.target.parentNode.dataset.buildid;
+        let build_id = null;
+        if (event.target.dataset.buildid !== undefined) {
+          build_id = event.target.dataset.buildid;
+        } else {
+          build_id = event.target.parentNode.dataset.buildid;
+        }
         window.location.href = "/build_edit?build_id=" + build_id;
       });
     <% } %>

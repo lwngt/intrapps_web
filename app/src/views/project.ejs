@@ -254,7 +254,12 @@
       // Build detail
       $('.detail').click((event) => {
         show_circle_loading();
-        let build_id = event.target.parentNode.dataset.buildid;
+        let build_id = null;
+        if (event.target.dataset.buildid !== undefined) {
+          build_id = event.target.dataset.buildid;
+        } else {
+          build_id = event.target.parentNode.dataset.buildid;
+        }
         window.location.href = "/build?build_id=" + build_id;
       });
 
@@ -262,7 +267,12 @@
       <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
         $('.project_edit').click((event) => {
           show_circle_loading();
-          let project_id = event.target.parentNode.dataset.id;
+          let project_id = null;
+          if (event.target.dataset.id !== undefined) {
+            project_id = event.target.dataset.id;
+          } else {
+            project_id = event.target.parentNode.dataset.id;
+          }
           window.location.href = "/project_edit?project_id=" + project_id;
         });
       <% } %>
