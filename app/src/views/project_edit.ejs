@@ -64,9 +64,9 @@
               </div>
               <div class="col-6  col-md-6 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
-                <button id="delete-project" class="btn btn-default btn-icon btn-sm"
+                <button id="delete-project" class="btn btn-danger btn-round"
                   data-projectid="<%= page_result.data.project.id %>" data-toggle="modal" data-target="#myModal">
-                  <i class=" nc-icon nc-simple-remove"></i>
+                  <i class=" nc-icon nc-simple-remove"></i>&nbsp;&nbsp;Delete
                 </button>
                 <% } %>
               </div>
