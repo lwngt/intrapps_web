@@ -54,6 +54,8 @@ var execute_cancel_contract = (callback) => {
 var fail_add_project = (item) => {
   if (item === 'image') {
     create_modal('failed to add project', 'Number of image is up to 5.', 'close', null);
+  } else if (item === 'name') {
+    create_modal('failed to add project', 'Project name is mandatory', 'close', null);
   }
 }
 
