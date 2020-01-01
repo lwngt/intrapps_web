@@ -17,6 +17,7 @@
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+  <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 </head>
 
 <body class="">
@@ -80,10 +81,10 @@
               <div class="row">
                 <div class="card-category col-5 col-md-3 card-category">Release Note</div>
                 <div class="release-note col-7 col-md-9">
-                  <input type='hidden' id="release-note" name="release_note">
                   <div class="form-group">
-                    <textarea id="build-release-note" rows="8" cols="160" wrap="soft" minLength="0" maxLength="30000"
-                      class="form-control overview"></textarea>
+                    <input type='hidden' id="release-note" name="release_note">
+                    <div id="editor" style="height: 160px;">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -130,6 +131,8 @@
     </div>
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery.min.js"></script>
+    <!-- quill -->
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
     <script>
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         set_highlight_sidebar('project_list', "sidebar-project-<%= page_result.data.project.id %>");
@@ -153,6 +156,17 @@
             }
         });
       };
+
+      var quill = new Quill('#editor', {
+        modules: {
+          toolbar: [
+            ['bold', 'italic'],
+            ['link', 'blockquote', 'image'],
+            [{ list: 'ordered' }, { list: 'bullet' }]
+          ]
+        },
+        theme: 'snow'
+      });
 
       set_form_validation = (id) => {
         $(id).validate({
@@ -180,7 +194,7 @@
       });
 
       $('#update-build').click(() => {
-        let build_release_note_text = $('#build-release-note').val();
+        let build_release_note_text = encodeURIComponent(quill.container.firstChild.innerHTML);
         $('#release-note').val(build_release_note_text);
         if ($('#smartphone-app').val() === "") {
           fail_add_build();

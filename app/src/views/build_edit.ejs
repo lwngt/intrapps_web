@@ -17,6 +17,7 @@
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+  <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 </head>
 
 <body class="">
@@ -80,8 +81,9 @@
                 <div class="card-category col-5 col-md-3 card-category">Release Note</div>
                 <div class="release-note col-7 col-md-9">
                   <input type='hidden' id="release-note" name="release_note">
-                  <textarea id="build-release-note" rows="8" cols="160" wrap="soft"
-                    class="form-control overview"><%= release_note %></textarea>
+                  <div id="editor" style="height: 160px;">
+                    <%- decodeURIComponent(release_note) %>
+                  </div>
                 </div>
               </div>
               <div class="row">
@@ -126,6 +128,8 @@
     </div>
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery.min.js"></script>
+    <!-- quill -->
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
     <script>
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         inherit_sidebar_setting();
@@ -149,6 +153,17 @@
         });
       };
 
+      var quill = new Quill('#editor', {
+        modules: {
+          toolbar: [
+            ['bold', 'italic'],
+            ['link', 'blockquote', 'image'],
+            [{ list: 'ordered' }, { list: 'bullet' }]
+          ]
+        },
+        theme: 'snow'
+      });
+
       $("#load-modal").click(() => {
           <% if (error !== undefined && error !== null) { %>
           create_modal('error (<%= error.status %>_<%= error.code %>)',
@@ -157,7 +172,7 @@
           });
 
       $('#update-build').click(() => {
-        let build_release_note_text = $('#build-release-note').val();
+        let build_release_note_text = encodeURIComponent(quill.container.firstChild.innerHTML);
         if (!(build_release_note_text)) {
           fail_add_build('release_note');
           return;

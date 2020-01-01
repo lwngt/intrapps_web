@@ -92,7 +92,7 @@
             <div class="row">
               <div class="card-category col-5 col-md-3 card-category">Overview</div>
               <div class="project-overview col-7 col-md-9">
-                <%= page_result.data.project.overview %>
+                <%- decodeURIComponent(page_result.data.project.overview) %>
               </div>
             </div>
             <% if(page_result.data.project.image_1 !== null
@@ -231,6 +231,9 @@
           <% } %>
         <% } %>
       });
+
+      // for project overview text
+      $('.project-overview > p').css({ "margin": "0px" });
 
       // show error dialog when load
       show_modal_when_onload = () => {

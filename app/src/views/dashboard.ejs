@@ -134,7 +134,7 @@
             <h6>Release Note</h6>
             <div class="row">
               <div class="release-note-text col-12 col-md-12">
-                <%= item.application.release_note %>
+                <%- decodeURIComponent(item.application.release_note) %>
               </div>
             </div>
             <hr>
@@ -230,7 +230,7 @@
                 </div>
                 <div class="row">
                   <div class="report-text col-12 col-md-12">
-                    <%= report_item.note %>
+                    <%- decodeURIComponent(report_item.note) %>
                   </div>
                 </div>
               </div>
@@ -286,6 +286,9 @@
       change_class('#sidebar-build', sidebar_id_list);
       set_highlight_sidebar(null, 'sidebar-build');
     });
+
+    $('.release-note-text > p').css({ "margin": "0px" });
+    $('.report-text > p').css({ "margin": "0px" });
 
     $(() => {
       <% if (page_result !== null && page_result.data.buildings !== null) { %>

@@ -17,6 +17,7 @@
   <!-- CSS Files -->
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="../assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+  <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 </head>
 
 <body class="">
@@ -67,9 +68,10 @@
                 <div class="card-category col-12 col-md-3 card-category">Report</div>
                 <div class="col-12 col-md-9">
                   <div class="form-group">
-                    <textarea id="report-note" name="report_note" rows="8" cols="160" wrap="soft" minLength="0"
-                      maxLength="30000" required="true" class="form-control overview">
-                    </textarea>
+                    <input type='hidden' id="report-note" name="report_note">
+                    <div id="editor" style="height: 160px;">
+                    </div>
+                    <p id="error-text" class="text-danger"></p>
                   </div>
                 </div>
               </div>
@@ -78,7 +80,7 @@
           </div>
           <div class="text-center">
             <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
-            <button id="save-comment" class="btn btn-danger btn-round">
+            <button id="save-comment" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal">
               <i class="nc-icon nc-check-2"></i>&nbsp&nbspsave
             </button>
             <% } %>
@@ -96,6 +98,8 @@
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery.min.js"></script>
     <script src="assets/js/plugins/jquery.validate.min.js"></script>
+    <!-- quill -->
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
     <script>
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         inherit_sidebar_setting();
@@ -105,7 +109,6 @@
       $(() => {
         $("#footer").load("assets/include/footer.html", () => {
           $("#modal").load("assets/include/modal.html", show_modal_when_onload);
-          set_form_validation("#comment");
         });
         $("#report-note").val(null);
       });
@@ -121,6 +124,17 @@
             }
         });
       };
+
+      var quill = new Quill('#editor', {
+        modules: {
+          toolbar: [
+            ['bold', 'italic'],
+            ['link', 'blockquote', 'image'],
+            [{ list: 'ordered' }, { list: 'bullet' }]
+          ]
+        },
+        theme: 'snow'
+      });
 
       $("#load-modal").click(() => {
         <% if (error !== undefined && error !== null) { %>
@@ -139,34 +153,32 @@
 
       <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
         $('#save-comment').click(() => {
-          $("#comment").valid();
-          if (check_validation_result($("#report-note"))) {
-            $("#click-modal").trigger("click");
+          $("#report-note").val((quill.container.firstChild.innerHTML));
+          // no text
+          if ((quill.container.firstChild.textContent).length === 0) {
+            $("#error-text").html("Report text is mandatory.");
+            failed_add_comment();
+            return;
           }
+          // over text
+          if (get_byte_length(quill.container.firstChild.innerHTML) >= 104857600) {
+            // over 100mb
+            $("#error-text").html("Report content size is over.");
+            failed_add_comment();
+            return;
+          }
+          $("#click-modal").trigger("click");
         });
       <% } %>
 
-        set_form_validation = (id) => {
-          $(id).validate({
-            highlight: function (element) {
-              $(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
-              $(element).closest('.form-check').removeClass('has-success').addClass('has-danger');
-            },
-            success: function (element) {
-              $(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
-              $(element).closest('.form-check').removeClass('has-danger').addClass('has-success');
-              $(element).closest('.form-group').find('label').remove();
-            },
-            errorPlacement: function (error, element) {
-              $(element).closest('.form-group').find('label').remove();
-              $(element).closest('.form-group').append(error);
-            },
-          });
-        };
+        $(".sidebar-redirect").click(() => {
+          show_circle_loading();
+        });
 
-      $(".sidebar-redirect").click(() => {
-        show_circle_loading();
-      });
+      get_byte_length = (content) => {
+        content = (content == null) ? "" : content;
+        return encodeURI(content).replace(/%../g, "*").length;
+      }
     </script>
 </body>
 

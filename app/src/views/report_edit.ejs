@@ -17,6 +17,7 @@
   <!-- CSS Files -->
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="../assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+  <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 </head>
 
 <body class="">
@@ -66,8 +67,11 @@
               <div class="row">
                 <div class="card-category col-12 col-md-3 card-category">Report</div>
                 <div class="col-12 col-md-9">
-                  <textarea id="report-note" name="report_note" rows="8" cols="160" wrap="soft"
-                    class="form-control overview"><%= note %></textarea>
+                  <input type='hidden' id="report-note" name="report_note">
+                  <div id="editor" style="height: 160px;">
+                    <%- decodeURIComponent(note) %>
+                  </div>
+                  <p id="error-text" class="text-danger"></p>
                 </div>
               </div>
               <input type="hidden" id="build-id" name="build_id" value="<%= build_id %>">
@@ -94,6 +98,8 @@
     </div>
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery.min.js"></script>
+    <!-- quill -->
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
     <script>
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         inherit_sidebar_setting();
@@ -118,6 +124,17 @@
         });
       };
 
+      var quill = new Quill('#editor', {
+        modules: {
+          toolbar: [
+            ['bold', 'italic'],
+            ['link', 'blockquote', 'image'],
+            [{ list: 'ordered' }, { list: 'bullet' }]
+          ]
+        },
+        theme: 'snow'
+      });
+
       $("#load-modal").click(() => {
         <% if (error !== undefined && error !== null) { %>
           create_modal('error (<%= error.status %>_<%= error.code %>)',
@@ -127,12 +144,20 @@
 
       <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
         $('#save-comment').click(() => {
-          let report_text = $('#report-note').val();
-          if (!(report_text)) {
+          $("#report-note").val((quill.container.firstChild.innerHTML));
+          // no text
+          if ((quill.container.firstChild.textContent).length === 0) {
+            $("#error-text").html("Report text is mandatory.");
             failed_add_comment();
             return;
           }
-
+          // over text
+          if (get_byte_length(quill.container.firstChild.innerHTML) >= 104857600) {
+            // over 100mb
+            $("#error-text").html("Report content size is over.");
+            failed_add_comment();
+            return;
+          }
           execute_add_comment(() => {
             show_circle_loading();
             $("form").submit();
@@ -145,6 +170,11 @@
         $(".sidebar-redirect").click(() => {
           show_circle_loading();
         });
+
+      get_byte_length = (content) => {
+        content = (content == null) ? "" : content;
+        return encodeURI(content).replace(/%../g, "*").length;
+      }
     </script>
 </body>
 

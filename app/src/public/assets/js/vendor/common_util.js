@@ -139,5 +139,3 @@ var show_circle_loading = () => {
 var delete_circle_loading = () => {
   $("#overlay").fadeOut(300);
 }
-
-

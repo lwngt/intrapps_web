@@ -17,6 +17,7 @@
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+  <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 </head>
 
 <body class="">
@@ -73,12 +74,13 @@
                 </div>
               </div>
               <br>
-              <div class="row">
+              <div class="row" style="height: 200px;">
                 <div class="card-category col-12 col-md-3 card-category">Overview</div>
                 <div class="col-12 col-md-9">
                   <div class="form-group">
-                    <textarea id="project-overview" name="project_overview" rows="8" cols="160" wrap="soft"
-                      minLength="0" maxLength="30000" class="form-control overview"></textarea>
+                    <input type="hidden" id="project-overview" name="project_overview">
+                    <div id="editor" style="height: 160px;">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -123,6 +125,8 @@
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery.min.js"></script>
     <script src="assets/js/plugins/jquery.validate.min.js"></script>
+    <!-- quill -->
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
     <script>
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         inherit_sidebar_setting();
@@ -151,6 +155,17 @@
         });
       };
 
+      var quill = new Quill('#editor', {
+        modules: {
+          toolbar: [
+            ['bold', 'italic'],
+            ['link', 'blockquote', 'image'],
+            [{ list: 'ordered' }, { list: 'bullet' }]
+          ]
+        },
+        theme: 'snow'
+      });
+
       $("#load-modal").click(() => {
         <% if (error !== undefined && error !== null) { %>
           create_modal('error (<%= error.status %>_<%= error.code %>)',
@@ -167,6 +182,9 @@
             fail_add_project('image');
             return;
           }
+
+          $('#project-overview').val(encodeURIComponent(quill.container.firstChild.innerHTML));
+          let overview_text = $('#project-overview').val();
 
           if (check_validation_result($("#project-name"))) {
             execute_add_project(() => {
