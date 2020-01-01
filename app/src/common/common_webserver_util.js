@@ -408,7 +408,7 @@ class Web_Server_Util {
 
   // Function : get_apiserver_plist_directory_path
   // Argument : none
-  // response : screenshot directory path of api server
+  // response : plist directory path of api server
   get_apiserver_plist_directory_path() {
     let config = get_confing_information();
     let plist_path = config.api.api_server_files.PLIST;
@@ -417,7 +417,7 @@ class Web_Server_Util {
 
   // Function : get_apiserver_apk_directory_path
   // Argument : none
-  // response : screenshot directory path of api server
+  // response : apk directory path of api server
   get_apiserver_apk_directory_path() {
     let config = get_confing_information();
     let apk_path = config.api.api_server_files.APK;
@@ -435,7 +435,7 @@ class Web_Server_Util {
 
   // Function : get_apiserver_icon_directory_path
   // Argument : none
-  // response : screenshot directory path of api server
+  // response : icon directory path of api server
   get_apiserver_icon_directory_path() {
     let config = get_confing_information();
     let image_path = config.api.api_server_image.ICON;

@@ -272,6 +272,7 @@
       <div id="modal"></div>
       <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
       <div id="download-modal" data-toggle="modal" data-target="#myModal"></div>
+      <div id="safari-ios-modal" data-toggle="modal" data-target="#myModal"></div>
 
       <form id="remove-report-comment" name="remove_report_comment" method="post" action="/report_delete_execute">
         <input type="hidden" id="remove-build-id" name="remove_build_id">
@@ -450,24 +451,38 @@
       let os_type = event.target.dataset.ostype;
       let enabled = event.target.dataset.enabled;
       if (Number(enabled) === 0) {
-        show_stop_download_message();
+        $("#download-modal").trigger("click");
         return;
       }
       let base_url = null;
       let plist_path = "<%= plist %>";
       let apk_path = "<%= apk %>";
       if (os_type === 'ios') {
-        base_url = "itms-services://?action=download-manifest&url=" + plist_path;
+        if (check_ios_browser()) {
+          base_url = "itms-services://?action=download-manifest&url=" + plist_path;
+        } else {
+          $("#safari-ios-modal").trigger("click");
+          base_url = plist_path;
+        }
       } else {
         base_url = apk_path;
       }
       let url = base_url + file_name;
+
+      if (check_ios_browser() === false && os_type === 'ios') {
+        if (check_android_browser()) {
+          // In the case of android browser, user can't download ipa
+          return;
+        }
+        url = url.replace(/plist/g, "ipa");
+      }
+
       execute_download_file(url, file_name);
     });
 
-    const show_stop_download_message = () => {
-      $("#download-modal").trigger("click");
-    };
+    $("#safari-ios-modal").click(() => {
+      failed_to_install_ipa_file();
+    });
 
     $("#download-modal").click(() => {
       not_to_download_application();
