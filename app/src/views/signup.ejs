@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 
 <head>
   <meta charset="utf-8" />
@@ -14,8 +14,6 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
@@ -36,7 +34,8 @@
             <div class="card">
               <div class="card-header" style="text-align: center; margin-top: 10px; margin-bottom: -20px;">
                 <h3>Intrapps</h3>
-                <h6 class="step-3 text-center" style="color: red; display: none;">Check the user registration details.
+                <h6 class="step-3 text-center" style="color: red; display: none; margin-bottom: 25px;">Check the user
+                  registration details.
                 </h6>
               </div>
               <div class="card-body">
@@ -85,7 +84,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="step-2">
+                  <div class="step-2" style="display: none;">
                     <h6 class="text-center">STEP 2</h6>
                     <div class="row">
                       <div class="col-6 pr-1">
@@ -145,7 +144,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="step-3" style="width: 100%; height: 300px; overflow: auto;">
+                  <div class="step-3" style="width: 100%; height: 300px; overflow: auto; display: none;">
                     <div class="">
                       <table class="table">
                         <thead class="">
@@ -211,36 +210,36 @@
               </div>
               <div class="card-footer">
                 <div class="step-1 text-center">
-                  <button id="user-next" class="btn btn-warning btn-round mb-3 px-auto">
-                    <i class="fas fa-edit"></i> Next
+                  <button id="user-next" class="btn btn-danger btn-round mb-3 px-auto">
+                    Next
                   </button>
                 </div>
-                <div class="step-2">
+                <div class="step-2" style="display: none;">
                   <div class="row">
                     <div class="col-4">
-                      <button id="user-back" class="btn btn-warning btn-link">
-                        <i class="fas fa-caret-left"></i> Back
+                      <button id="user-back" class="btn btn-danger btn-link">
+                        Back
                       </button>
                     </div>
                     <div class="col-4 text-center">
-                      <button id="user-confirm" class="btn btn-warning btn-round mb-3 px-auto">
-                        <i class="fas fa-check"></i> Confirm
+                      <button id="user-confirm" class="btn btn-danger btn-round mb-3 px-auto">
+                        Confirm
                       </button>
                     </div>
                     <div class="col-4"></div>
                   </div>
                 </div>
-                <div class="step-3 text-center">
+                <div class="step-3 text-center" style="display: none;">
                   <div class="row">
                     <div class="col-4">
-                      <button id="user-back-step2" class="btn btn-warning btn-link">
-                        <i class="fas fa-caret-left"></i> Back
+                      <button id="user-back-step2" class="btn btn-danger btn-link">
+                        Back
                       </button>
                     </div>
                     <div class="col-4 text-center">
-                      <button id="user-signup" class="btn btn-warning btn-round mb-3 px-auto" data-toggle="modal"
+                      <button id="user-signup" class="btn btn-danger btn-round mb-3 px-auto" data-toggle="modal"
                         data-target="#myModal">
-                        <i class="fas fa-user-plus"></i> Register
+                        sign up
                       </button>
                     </div>
                     <div class="col-4"></div>

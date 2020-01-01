@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 
 <head>
   <meta charset="utf-8" />
@@ -14,11 +14,10 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+  <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 </head>
 
 <body class="">
@@ -29,7 +28,7 @@
   </div>
   <div class="wrapper ">
     <!-- sidebar -->
-    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+    <div id="sidebar-main" class="sidebar" data-color="brown" data-active-color="danger">
       <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
     </div>
     <div class="main-panel">
@@ -66,9 +65,9 @@
               </div>
               <div class="col-6  col-md-6 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
-                <button id="delete-project" class="btn btn-default btn-icon btn-sm"
+                <button id="delete-project" class="btn btn-danger btn-round"
                   data-projectid="<%= page_result.data.project.id %>" data-toggle="modal" data-target="#myModal">
-                  <i class=" nc-icon nc-simple-remove"></i>
+                  <i class=" nc-icon nc-simple-remove"></i>&nbsp;&nbsp;Delete
                 </button>
                 <% } %>
               </div>
@@ -88,11 +87,14 @@
                 </div>
               </div>
               <br>
-              <div class="row">
+              <div class="row" style="height: 200px;">
                 <div class="card-category col-12 col-md-3 card-category">Overview</div>
                 <div class="col-12 col-md-9">
-                  <textarea id="project-overview" rows="8" cols="160" wrap="soft" name="project_overview"
-                    class="form-control overview"><%= page_result.data.project.overview %></textarea>
+                  <!-- Create the editor container -->
+                  <input type="hidden" id="project-overview" name="project_overview">
+                  <div id="editor" style="height: 160px;">
+                    <%- decodeURIComponent(page_result.data.project.overview) %>
+                  </div>
                 </div>
               </div>
               <br>
@@ -122,12 +124,12 @@
                   </div>
                 </div>
               </div>
-              <hr>
+              <br>
               <div class="row">
                 <div class="card-category col-12 col-md-3 card-category"></div>
                 <div class="col-12 col-md-9">
-                  <span class="btn btn-sm btn-outline-secondary btn-round btn-file">
-                    upload new images
+                  <span class="btn btn-outline-secondary btn-round btn-file">
+                    <i class="nc-icon nc-image"></i>&nbsp&nbspupload image
                     <input type="file" class="form-control" id="upload" accept="image/*" name="project_images"
                       multiple="multiple" />
                   </span>
@@ -144,8 +146,8 @@
             </form>
             <div class="text-center">
               <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
-              <button id="edit-project" class="btn btn-warning btn-round" data-toggle="modal" data-target="#myModal">
-                <i class="far fa-save"></i>&nbspSave
+              <button id="edit-project" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal">
+                <i class="nc-icon nc-check-2"></i>&nbsp&nbspSave
               </button>
               <% } %>
             </div>
@@ -162,6 +164,8 @@
     </div>
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery.min.js"></script>
+    <!-- quill -->
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
     <script>
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         //inherit_sidebar_setting();
@@ -195,6 +199,17 @@
         <% } %>
         });
       };
+
+      var quill = new Quill('#editor', {
+        modules: {
+          toolbar: [
+            ['bold', 'italic'],
+            ['link', 'blockquote', 'image'],
+            [{ list: 'ordered' }, { list: 'bullet' }]
+          ]
+        },
+        theme: 'snow'
+      });
 
       window.onpageshow = function () {
         delete_circle_loading();
@@ -234,7 +249,9 @@
             return;
           }
 
+          $('#project-overview').val(encodeURIComponent(quill.container.firstChild.innerHTML));
           let overview_text = $('#project-overview').val();
+
           if (!(overview_text)) {
             fail_add_project('overview');
             return;

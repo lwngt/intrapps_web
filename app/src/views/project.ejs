@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 
 <head>
   <meta charset="utf-8" />
@@ -27,7 +27,7 @@
   </div>
   <div class="wrapper ">
     <!-- sidebar -->
-    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+    <div id="sidebar-main" class="sidebar" data-color="brown" data-active-color="danger">
       <% if(page_result !== null) { %>
       <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
       <% } else { %>
@@ -58,7 +58,7 @@
           <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
           <div class="row">
             <button id="add-build" class="btn top-button-margin btn-round" style="margin-top: 0px;margin-bottom: 0px;">
-              <i class="fa fa-plus"></i> add app
+              <i class="nc-icon nc-simple-add"></i> add app
             </button>
           </div>
           <% } %>
@@ -74,9 +74,8 @@
               </div>
               <div class="col-6  col-md-6 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
-                <button class="btn btn-default btn-icon btn-sm project_edit"
-                  data-id="<%= page_result.data.project.id %>">
-                  <i class="fa fa-edit"></i>
+                <button class="btn btn-default btn-round project_edit" data-id="<%= page_result.data.project.id %>">
+                  <i class="nc-icon nc-settings-gear-65"></i>&nbsp&nbspEdit
                 </button>
                 <% } %>
               </div>
@@ -93,7 +92,7 @@
             <div class="row">
               <div class="card-category col-5 col-md-3 card-category">Overview</div>
               <div class="project-overview col-7 col-md-9">
-                <%= page_result.data.project.overview %>
+                <%- decodeURIComponent(page_result.data.project.overview) %>
               </div>
             </div>
             <% if(page_result.data.project.image_1 !== null
@@ -140,12 +139,12 @@
             <table id="datatable" class="table table-striped table-bordered dt-responsive">
               <thead>
                 <tr>
-                  <th class="text-center">Build #</th>
+                  <th class="disabled-sorting text-center"></th>
+                  <th class="text-center" style="max-width: 20px;">#</th>
                   <th class="text-center">OS</th>
-                  <th class="disabled-sorting text-center">detail</th>
                   <th class="disabled-sorting text-center">icon</th>
                   <th class="text-center">App title</th>
-                  <th class="text-center">App ver</th>
+                  <th class="text-center" style="max-width: 60px;">App ver</th>
                   <th class="text-center">Bundle Id<br>Package Name</th>
                   <th class="text-center">Upload date</th>
                 </tr>
@@ -157,39 +156,39 @@
                 <% build_histories.forEach( build_history => { %>
                 <% if(build_history.kind === 0) { %>
                 <tr>
-                  <td class="build-no"><%= build_history.id %></td>
-                  <td class="build-os">iOS</td>
                   <td class="text-center">
-                    <button class="btn btn-warning btn-icon btn-sm detail" data-buildid="<%= build_history.id %>">
-                      <i class="fa fa-edit"></i>
+                    <button class="btn btn-default btn-icon btn-sm detail" data-buildid="<%= build_history.id %>">
+                      <i class="nc-icon nc-settings"></i>
                     </button>
                   </td>
-                  <td>
+                  <td class="build-no" style="max-width: 20px;"><%= build_history.id %></td>
+                  <td class="build-os">iOS</td>
+                  <td class="text-center">
                     <% if(build_history.icon !== null) { %>
                     <img class="app-icon" src="<%= icon %><%= build_history.icon %>">
                     <% } %>
                   </td>
                   <td><%= build_history.app_name %></td>
-                  <td><%= build_history.current_version %></td>
+                  <td style="max-width: 60px;"><%= build_history.current_version %></td>
                   <td><%= build_history.bundle_id %></td>
                   <td id="upload-date-<%= build_history.id %>"></td>
                 </tr>
                 <% } else {%>
                 <tr>
-                  <td class="build-no"><%= build_history.id %></td>
-                  <td class="build-os">Android</td>
                   <td class="text-center">
-                    <button class="btn btn-warning btn-icon btn-sm detail" data-buildid="<%= build_history.id %>">
-                      <i class="fa fa-edit"></i>
+                    <button class="btn btn-default btn-icon btn-sm detail" data-buildid="<%= build_history.id %>">
+                      <i class="nc-icon nc-settings"></i>
                     </button>
                   </td>
-                  <td>
+                  <td class="build-no" style="max-width: 20px;"><%= build_history.id %></td>
+                  <td class="build-os">Android</td>
+                  <td class="text-center">
                     <% if(build_history.icon !== null) { %>
                     <img class="app-icon" src="<%= icon %><%= build_history.icon %>">
                     <% } %>
                   </td>
                   <td><%= build_history.app_name %></td>
-                  <td><%= build_history.current_version %></td>
+                  <td style="max-width: 60px;"><%= build_history.current_version %></td>
                   <td><%= build_history.package_name %></td>
                   <td id="upload-date-<%= build_history.id %>"></td>
                 </tr>
@@ -233,6 +232,9 @@
         <% } %>
       });
 
+      // for project overview text
+      $('.project-overview > p').css({ "margin": "0px" });
+
       // show error dialog when load
       show_modal_when_onload = () => {
         $.getScript("assets/js/vendor/common_util.js", () => {
@@ -255,7 +257,12 @@
       // Build detail
       $('.detail').click((event) => {
         show_circle_loading();
-        let build_id = event.target.parentNode.dataset.buildid;
+        let build_id = null;
+        if (event.target.dataset.buildid !== undefined) {
+          build_id = event.target.dataset.buildid;
+        } else {
+          build_id = event.target.parentNode.dataset.buildid;
+        }
         window.location.href = "/build?build_id=" + build_id;
       });
 
@@ -263,7 +270,12 @@
       <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
         $('.project_edit').click((event) => {
           show_circle_loading();
-          let project_id = event.target.parentNode.dataset.id;
+          let project_id = null;
+          if (event.target.dataset.id !== undefined) {
+            project_id = event.target.dataset.id;
+          } else {
+            project_id = event.target.parentNode.dataset.id;
+          }
           window.location.href = "/project_edit?project_id=" + project_id;
         });
       <% } %>

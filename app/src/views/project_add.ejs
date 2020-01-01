@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 
 <head>
   <meta charset="utf-8" />
@@ -14,11 +14,10 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+  <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 </head>
 
 <body class="">
@@ -29,7 +28,7 @@
   </div>
   <div class="wrapper ">
     <!-- sidebar -->
-    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+    <div id="sidebar-main" class="sidebar" data-color="brown" data-active-color="danger">
       <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
     </div>
     <div class="main-panel">
@@ -52,12 +51,6 @@
             </div>
             <a id="navbar-title" class="navbar-brand" href="/project_add">Add project</a>
           </div>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
-            aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-          </button>
         </div>
       </nav>
       <!-- body -->
@@ -81,12 +74,13 @@
                 </div>
               </div>
               <br>
-              <div class="row">
+              <div class="row" style="height: 200px;">
                 <div class="card-category col-12 col-md-3 card-category">Overview</div>
                 <div class="col-12 col-md-9">
                   <div class="form-group">
-                    <textarea id="project-overview" name="project_overview" rows="8" cols="160" wrap="soft"
-                      minLength="0" maxLength="30000" class="form-control overview"></textarea>
+                    <input type="hidden" id="project-overview" name="project_overview">
+                    <div id="editor" style="height: 160px;">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -94,14 +88,8 @@
               <div class="row">
                 <div class="card-category col-12 col-md-3 card-category">Screen</div>
                 <div class="col-12 col-md-9">
-                  <p id="preview"></p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="card-category col-12 col-md-3 card-category"></div>
-                <div class="col-12 col-md-9">
                   <div class="form-group">
-                    <span class="btn btn-sm btn-outline-secondary btn-round btn-file">
+                    <span class="btn btn-outline-secondary btn-round btn-file">
                       images
                       <input type="file" class="form-control" id="upload" accept="image/*" name="project_images"
                         multiple="multiple" />
@@ -109,11 +97,17 @@
                   </div>
                 </div>
               </div>
+              <div class="row">
+                <div class="card-category col-12 col-md-3 card-category"></div>
+                <div class="col-12 col-md-9">
+                  <p id="preview"></p>
+                </div>
+              </div>
             </form>
             <div class="text-center">
               <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
-              <button id="save-project" class="btn btn-warning btn-round" data-toggle="modal" data-target="#myModal">
-                <i class="far fa-save"></i>&nbspsave
+              <button id="save-project" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal">
+                <i class="nc-icon nc-check-2"></i>&nbspsave
               </button>
               <% } %>
             </div>
@@ -131,6 +125,8 @@
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery.min.js"></script>
     <script src="assets/js/plugins/jquery.validate.min.js"></script>
+    <!-- quill -->
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
     <script>
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         inherit_sidebar_setting();
@@ -159,6 +155,17 @@
         });
       };
 
+      var quill = new Quill('#editor', {
+        modules: {
+          toolbar: [
+            ['bold', 'italic'],
+            ['link', 'blockquote', 'image'],
+            [{ list: 'ordered' }, { list: 'bullet' }]
+          ]
+        },
+        theme: 'snow'
+      });
+
       $("#load-modal").click(() => {
         <% if (error !== undefined && error !== null) { %>
           create_modal('error (<%= error.status %>_<%= error.code %>)',
@@ -176,12 +183,18 @@
             return;
           }
 
+          $('#project-overview').val(encodeURIComponent(quill.container.firstChild.innerHTML));
+          let overview_text = $('#project-overview').val();
+
           if (check_validation_result($("#project-name"))) {
             execute_add_project(() => {
               $('#add-project').submit();
               remove_modal();
               show_circle_loading();
             });
+          } else {
+            fail_add_project('name');
+            return;
           }
         });
       <% } %>

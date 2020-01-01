@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 
 <head>
   <meta charset="utf-8" />
@@ -14,8 +14,6 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
@@ -44,14 +42,14 @@
                 <div class="card-body text-center">
                   <br>
                   <div class="text-left">
-                    <label>Username *</label>
+                    <label>Username * (You named)</label>
                     <div class="form-group">
                       <input id="confirm-user-name" name="confirm_user_name" class="form-control" type="text"
                         minLength="6" maxLength="100" placeholder="Username" required="true">
                     </div>
                   </div>
                   <div class="text-left">
-                    <label>Code *</label>
+                    <label>Code * (written in E-mail)</label>
                     <div class="form-group">
                       <input id="confirm-code" name="confirm_code" type="text" minLength="6" maxLength="6"
                         placeholder="code" class="form-control" required="true">
@@ -60,7 +58,7 @@
                 </div>
               </form>
               <div class="card-footer text-center">
-                <button id="user-confirm" class="btn btn-warning btn-round mb-3 px-auto" data-toggle="modal"
+                <button id="user-confirm" class="btn btn-danger btn-round mb-3 px-auto" data-toggle="modal"
                   data-target="#myModal">
                   Authentication
                 </button>

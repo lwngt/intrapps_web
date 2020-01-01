@@ -54,6 +54,8 @@ var execute_cancel_contract = (callback) => {
 var fail_add_project = (item) => {
   if (item === 'image') {
     create_modal('failed to add project', 'Number of image is up to 5.', 'close', null);
+  } else if (item === 'name') {
+    create_modal('failed to add project', 'Project name is mandatory', 'close', null);
   }
 }
 
@@ -98,15 +100,15 @@ var execute_delete_comment = (callback) => {
 };
 
 var execute_signup = (callback) => {
-  create_modal('Register the user', 'Perform user registration. Is it OK?', 'execute', callback);
+  create_modal('sign up the user', 'Perform user registration. Is it OK?', 'execute', callback);
 };
 
 var execute_confirm = (callback) => {
-  create_modal('Register the user', 'Confirm verification code. Is it OK?', 'execute', callback);
+  create_modal('sign up the user', 'Confirm verification code. Is it OK?', 'execute', callback);
 };
 
 var failed_execute_confirm = () => {
-  create_modal('Register the user', 'There are some error in registration.', 'ok', null);
+  create_modal('sign up the user', 'There are some error in registration.', 'ok', null);
 };
 
 var execute_save_vendor = (callback) => {
@@ -121,6 +123,10 @@ var not_to_download_application = () => {
   create_modal('Stop downloading', 'This app has stopped downloading.', 'close', null);
 };
 
+var failed_to_install_ipa_file = () => {
+  create_modal('Fail to install', 'You have to use mobile-Safari of ios when you install ios app.', 'close', null);
+};
+
 var remove_modal = () => {
   $('.modal-backdrop').remove();
   $('#myModal').modal('hide');
@@ -128,14 +134,34 @@ var remove_modal = () => {
 
 var get_file_extension = (filename) => {
   return filename.split('.').pop();
-}
+};
 
 var show_circle_loading = () => {
   $("#overlay").fadeIn(300);
-}
+};
 
 var delete_circle_loading = () => {
   $("#overlay").fadeOut(300);
+};
+
+var check_ios_browser = () => {
+  let user_agent = window.navigator.userAgent.toLowerCase();
+  if ((user_agent.indexOf('iphone') !== -1
+    || user_agent.indexOf('ipad') !== -1)
+    && user_agent.indexOf('safari') !== -1) {
+    // iphone or ipad must use safari
+    return true;
+  } else {
+    return false;
+  }
+};
+
+var check_android_browser = () => {
+  let user_agent = window.navigator.userAgent.toLowerCase();
+  if (user_agent.indexOf('android') !== -1
+    && user_agent.indexOf('mobile') !== -1) {
+    return true;
+  } else {
+    return false;
+  }
 }
-
-

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 
 <head>
   <meta charset="utf-8" />
@@ -14,8 +14,6 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
@@ -29,7 +27,7 @@
   </div>
   <div class="wrapper ">
     <!-- sidebar -->
-    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+    <div id="sidebar-main" class="sidebar" data-color="brown" data-active-color="danger">
       <% if(page_result !== null) { %>
       <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
       <% } else { %>
@@ -62,9 +60,9 @@
               </div>
               <% if (page_result.data.sidebar.user_information.authority_content.management_delete !== 0) { %>
               <div class="col-6 text-right">
-                <button id="delete-user" class="btn btn-default btn-icon btn-sm"
-                  data-userid="<%= page_result.data.user.id %>" data-toggle="modal" data-target="#myModal">
-                  <i class=" nc-icon nc-simple-remove"></i>
+                <button id="delete-user" class="btn btn-default btn-round" data-userid="<%= page_result.data.user.id %>"
+                  data-toggle="modal" data-target="#myModal">
+                  <i class=" nc-icon nc-simple-remove"></i>&nbsp&nbspdelete user
                 </button>
               </div>
               <% } %>
@@ -130,8 +128,8 @@
               <div class="row d-flex align-items-center">
                 <div class="card-category col-3 card-category">Authority</div>
                 <div class="col-9">
-                  <select class="selectpicker" name="user_authority" data-size="3" data-style="btn btn-default"
-                    title="authority">
+                  <select class="selectpicker" name="user_authority" data-size="3"
+                    data-style="btn btn-round btn-default" title="authority">
                     <!-- admin -->
                     <% if(page_result.data.user.authority_type === 0) { %>
                     <option value="0" selected>admin</option>
@@ -213,8 +211,8 @@
             <% if(page_result.data.sidebar.user_information.authority_content.management_edit !== 0) { %>
             <br>
             <div class="text-center">
-              <button class="btn btn-warning btn-round" id="save-user-data">
-                <i class="far fa-save"></i>&nbspsave
+              <button class="btn btn-danger btn-round" id="save-user-data">
+                <i class="nc-icon nc-check-2"></i>&nbsp&nbspsave
               </button>
             </div>
             <% } %>

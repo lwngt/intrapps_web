@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 
 <head>
   <meta charset="utf-8" />
@@ -14,8 +14,6 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
@@ -29,7 +27,7 @@
   </div>
   <div class="wrapper ">
     <!-- sidebar -->
-    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+    <div id="sidebar-main" class="sidebar" data-color="brown" data-active-color="danger">
       <% if(page_result !== null) { %>
       <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
       <% } else { %>
@@ -69,9 +67,8 @@
               </div>
               <div class=" col-2 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.management_delete !== 0) { %>
-                <button id="delete-vendor" class="btn btn-default btn-icon btn-sm" data-toggle="modal"
-                  data-target="#myModal">
-                  <i class=" nc-icon nc-simple-remove"></i>
+                <button id="delete-vendor" class="btn btn-danger btn-round" data-toggle="modal" data-target="#myModal">
+                  <i class=" nc-icon nc-simple-remove"></i>&nbsp&nbspDelete
                 </button>
                 <% } %>
               </div>
@@ -96,7 +93,7 @@
                     <div>
                       <% if( Array.isArray(page_result.data.admin_users) ) { %>
                       <select class="selectpicker" name="contractor_user_id"
-                        data-size="<%= page_result.data.admin_users.maxLength %>" data-style="btn btn-default"
+                        data-size="<%= page_result.data.admin_users.maxLength %>" data-style="btn btn-round btn-default"
                         title="user">
                         <% page_result.data.admin_users.forEach(user => { %>
                         <option value="<%= user.id%>"><%= user.name %></option>
@@ -183,9 +180,9 @@
             </form>
             <% if (page_result.data.sidebar.user_information.authority_content.management_edit !== 0) { %>
             <div class="text-center">
-              <button id="save-vendor" class="btn btn-warning btn-round save-user-data" data-toggle="modal"
+              <button id="save-vendor" class="btn btn-danger btn-round save-user-data" data-toggle="modal"
                 data-target="#myModal">
-                <i class="far fa-save"></i>&nbspsave
+                <i class="nc-icon nc-check-2"></i>&nbsp&nbspsave
               </button>
             </div>
             <% } %>

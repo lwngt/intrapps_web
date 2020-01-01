@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 
 <head>
   <meta charset="utf-8" />
@@ -27,7 +27,7 @@
   </div>
   <div class="wrapper ">
     <!-- sidebar -->
-    <div id="sidebar-main" class="sidebar" data-color="blue" data-active-color="danger">
+    <div id="sidebar-main" class="sidebar" data-color="brown" data-active-color="danger">
       <% if(page_result !== null) { %>
       <%- include('sidebar-main', {"sidebar": page_result.data.sidebar}); %>
       <% } else { %>
@@ -57,11 +57,6 @@
           </div>
           <div class="collapse navbar-collapse justify-content-first" id="navigation">
           </div>
-          <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
-          <button id="add-build" class="btn top-button-margin btn-round" style="margin-top: 0px; margin-bottom: 0px;">
-            <i class="fa fa-plus"></i> add app
-          </button>
-          <% } %>
       </nav>
       <!-- body -->
       <div class="content">
@@ -93,9 +88,9 @@
               <!-- edit -->
               <div class="col-6 col-md-2 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
-                <button class="btn btn-default btn-icon btn-sm build-edit"
+                <button class="btn btn-default btn-round build-edit"
                   data-buildid="<%= page_result.data.building.build_id %>">
-                  <i class="fa fa-edit"></i>
+                  <i class="nc-icon nc-settings-gear-65"></i>&nbspEdit
                 </button>
                 <% } %>
               </div>
@@ -113,11 +108,11 @@
             <div class="row">
               <div class="col-12 col-md-12 text-center">
                 <% if(page_result.data.building.type === 0) { %>
-                <button class="btn btn-danger install-button" data-ostype="ios"
+                <button class="btn btn-danger btn-round install-button" data-ostype="ios"
                   data-enabled="<%= page_result.data.building.application.enabled %>"
                   data-filename="<%= page_result.data.building.application.plist_name %>">
                   <% } else { %>
-                  <button class="btn btn-danger install-button" data-ostype="android"
+                  <button class="btn btn-danger btn-round install-button" data-ostype="android"
                     data-enabled="<%= page_result.data.building.application.enabled %>"
                     data-filename="<%= page_result.data.building.application.file_name %>">
                     <% }%>
@@ -129,7 +124,7 @@
             <h6>Release Note</h6>
             <div class="row">
               <div class="release-note-text col-12 col-md-12">
-                <%= page_result.data.building.application.release_note %>
+                <%- decodeURIComponent(page_result.data.building.application.release_note) %>
               </div>
             </div>
             <hr>
@@ -198,7 +193,7 @@
               </div>
               <div class="col-6 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
-                <button class="btn btn-default btn-round btn-sm report-add"
+                <button class="btn btn-default btn-sm report-add"
                   data-buildid="<%= page_result.data.building.build_id %>">
                   <i class="nc-icon nc-simple-add"></i> add report
                 </button>
@@ -217,23 +212,22 @@
                   </div>
                   <div class="col-5 text-right">
                     <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
-                    <button class="btn btn-default btn-icon btn-sm report-edit"
-                      data-buildid="<%= report_item.build_id %>" data-reportid="<%= report_item.report_id %>">
-                      <i class="fa fa-edit"></i>
+                    <button class="btn btn-default btn-sm report-edit" data-buildid="<%= report_item.build_id %>"
+                      data-reportid="<%= report_item.report_id %>">
+                      <i class="nc-icon nc-settings-gear-65"></i>&nbspEdit
                     </button>
                     <% } %>
                     <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
-                    <button class="btn btn-default btn-icon btn-sm report-remove"
-                      data-buildid="<%= report_item.build_id %>" data-reportid="<%= report_item.report_id %>"
-                      data-toggle="modal" data-target="#myModal">
-                      <i class=" nc-icon nc-simple-remove"></i>
+                    <button class="btn btn-default btn-sm report-remove" data-buildid="<%= report_item.build_id %>"
+                      data-reportid="<%= report_item.report_id %>" data-toggle="modal" data-target="#myModal">
+                      <i class=" nc-icon nc-simple-remove"></i>&nbspDelete
                     </button>
                     <% } %>
                   </div>
                 </div>
                 <div class="row">
                   <div class="report-text col-12 col-md-12">
-                    <%= report_item.note %>
+                    <%- decodeURIComponent(report_item.note) %>
                   </div>
                 </div>
               </div>
@@ -258,6 +252,7 @@
       <div id="modal"></div>
       <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
       <div id="download-modal" data-toggle="modal" data-target="#myModal"></div>
+      <div id="safari-ios-modal" data-toggle="modal" data-target="#myModal"></div>
 
       <form id="remove-report-comment" name="remove_report_comment" method="post" action="/report_delete_execute">
         <input type="hidden" id="remove-build-id" name="remove_build_id">
@@ -271,6 +266,9 @@
     $.getScript("assets/js/vendor/common_sidebar.js", () => {
       inherit_sidebar_setting();
     });
+
+    $('.release-note-text > p').css({ "margin": "0px" });
+    $('.report-text > p').css({ "margin": "0px" });
 
     $(() => {
       <% if (page_result !== null && page_result.data.building !== null) { %>
@@ -311,7 +309,12 @@
     <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
       $(".build-edit").click(function (event) {
         show_circle_loading();
-        let build_id = event.target.parentNode.dataset.buildid;
+        let build_id = null;
+        if (event.target.dataset.buildid !== undefined) {
+          build_id = event.target.dataset.buildid;
+        } else {
+          build_id = event.target.parentNode.dataset.buildid;
+        }
         window.location.href = "/build_edit?build_id=" + build_id;
       });
     <% } %>
@@ -327,9 +330,22 @@
     <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
       $('.report-edit').click((event) => {
         show_circle_loading();
-        let build_id = event.target.parentNode.dataset.buildid;
-        let comment_id = event.target.parentNode.dataset.reportid;
-        window.location.href = "/report_edit?build_id=" + build_id + "&report_id=" + comment_id;
+        let build_id = null;
+        let report_id = null;
+
+        if (event.target.dataset.buildid !== undefined) {
+          build_id = event.target.dataset.buildid;
+        } else {
+          build_id = event.target.parentNode.dataset.buildid;
+        }
+
+        if (event.target.dataset.reportid !== undefined) {
+          report_id = event.target.dataset.reportid;
+        } else {
+          report_id = event.target.parentNode.dataset.reportid;
+        }
+
+        window.location.href = "/report_edit?build_id=" + build_id + "&report_id=" + report_id;
       });
     <% } %>
 
@@ -337,9 +353,22 @@
       $('.report-remove').click((event) => {
         execute_delete_comment(() => {
           show_circle_loading();
-          let build_id = event.target.parentNode.dataset.buildid;
+          let build_id = null;
+          let report_id = null;
+
+          if (event.target.dataset.buildid !== undefined) {
+            build_id = event.target.dataset.buildid;
+          } else {
+            build_id = event.target.parentNode.dataset.buildid;
+          }
+
+          if (event.target.dataset.reportid !== undefined) {
+            report_id = event.target.dataset.reportid;
+          } else {
+            report_id = event.target.parentNode.dataset.reportid;
+          }
+
           $('#remove-build-id').val(build_id);
-          let report_id = event.target.parentNode.dataset.reportid;
           $('#remove-report-id').val(report_id);
           $('#remove-report-comment').submit();
           remove_modal();
@@ -352,27 +381,41 @@
         let os_type = event.target.dataset.ostype;
         let enabled = event.target.dataset.enabled;
         if (Number(enabled) === 0) {
-          show_stop_download_message();
+          $("#download-modal").trigger("click");
           return;
         }
         let base_url = null;
         let plist_path = "<%= plist %>";
         let apk_path = "<%= apk %>";
         if (os_type === 'ios') {
-          base_url = "itms-services://?action=download-manifest&url=" + plist_path;
+          if (check_ios_browser()) {
+            base_url = "itms-services://?action=download-manifest&url=" + plist_path;
+          } else {
+            $("#safari-ios-modal").trigger("click");
+            base_url = plist_path;
+          }
         } else {
           base_url = apk_path;
         }
         let url = base_url + file_name;
+
+        if (check_ios_browser() === false && os_type === 'ios') {
+          if (check_android_browser()) {
+            // In the case of android browser, user can't download ipa
+            return;
+          }
+          url = url.replace(/plist/g, "ipa");
+        }
+
         execute_download_file(url, file_name);
       });
 
-    const show_stop_download_message = () => {
-      $("#download-modal").trigger("click");
-    };
-
     $("#download-modal").click(() => {
       not_to_download_application();
+    });
+
+    $("#safari-ios-modal").click(() => {
+      failed_to_install_ipa_file();
     });
 
     const execute_download_file = (url, file_name) => {
