@@ -55,29 +55,16 @@
         </div>
       </div>
       <footer id="footer" class="footer footer-black  footer-white ">
+        <%- include('footer'); %>
       </footer>
+      <div id="modal">
+        <%- include('modal'); %>
+      </div>
     </div>
-    <div id="modal"></div>
   </div>
-  <!--   Core JS Files   -->
-  <script src="assets/js/core/jquery.min.js"></script>
+  <%- include('script'); %>
   <script>
-    $(() => {
-      $("#footer").load("assets/include/footer.html");
-    });
-    $(window).on('load resize', () => {
-      // set image in background
-      $page = $('.full-page');
-      image_src = $page.data('image');
-      $(".login-page").css('margin-bottom', '-20px');
-
-      if (image_src !== undefined) {
-        image_container = '<div class="full-page-background" style="background-image: url(' + image_src + ') "/>';
-        $page.append(image_container);
-      }
-      $("#modal").load("assets/include/modal.html");
-      $.getScript("assets/js/vendor/common_util.js");
-    });
+    $.getScript("assets/js/vendor/common_util.js");
 
     $("#user-confirm").click(() => {
       show_circle_loading();

@@ -248,8 +248,11 @@
       <!-- End of card content -->
       <!-- fotter -->
       <footer id="footer" class="footer footer-black  footer-white ">
+        <%- include('footer'); %>
       </footer>
-      <div id="modal"></div>
+      <div id="modal">
+        <%- include('modal'); %>
+      </div>
       <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
       <div id="download-modal" data-toggle="modal" data-target="#myModal"></div>
       <div id="safari-ios-modal" data-toggle="modal" data-target="#myModal"></div>
@@ -260,8 +263,7 @@
       </form>
     </div>
   </div>
-  <!--   Core JS Files   -->
-  <script src="assets/js/core/jquery.min.js"></script>
+  <%- include('script'); %>
   <script>
     $.getScript("assets/js/vendor/common_sidebar.js", () => {
       inherit_sidebar_setting();
@@ -282,9 +284,7 @@
           <% }  %>
         <% }  %>
       <% } %>
-        $("#footer").load("assets/include/footer.html", () => {
-          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
-        });
+        show_modal_when_onload();
     });
 
     // show error dialog when load

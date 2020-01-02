@@ -201,27 +201,28 @@
           </div>
           <div class="card-footer">
           </div>
-          <div id="modal"></div>
-          <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
         </div>
         <!-- End of card content -->
       </div>
       <!-- fotter -->
       <footer id="footer" class="footer footer-black  footer-white ">
+        <%- include('footer'); %>
       </footer>
+      <div id="modal">
+        <%- include('modal'); %>
+      </div>
+      <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
     </div>
     <!--   Core JS Files   -->
-    <script src="assets/js/core/jquery.min.js"></script>
+    <%- include('script'); %>
     <script>
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         set_highlight_sidebar('project_list', "sidebar-project-<%= page_result.data.project.id %>");
       });
 
       $(() => {
-        $("#footer").load("assets/include/footer.html", () => {
-          datatables_setting.initialize_for_applist_in_project('#datatable');
-          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
-        });
+        datatables_setting.initialize_for_applist_in_project('#datatable');
+        show_modal_when_onload();
         <% if (Array.isArray(page_result.data.project.build_history) === true) { %>
           <% let build_histories = page_result.data.project.build_history; %>
           <% if (build_histories.length > 0) { %>

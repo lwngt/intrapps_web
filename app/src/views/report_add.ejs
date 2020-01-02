@@ -89,17 +89,17 @@
           </div>
         </div>
       </div>
-      <div id="modal"></div>
+      <!-- fotter -->
+      <footer id="footer" class="footer footer-black  footer-white ">
+        <%- include('footer'); %>
+      </footer>
+      <div id="modal">
+        <%- include('modal'); %>
+      </div>
       <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
       <div id="click-modal" data-toggle="modal" data-target="#myModal"></div>
-      <!-- fotter -->
-      <footer id="footer" class="footer footer-black  footer-white "></footer>
     </div>
-    <!--   Core JS Files   -->
-    <script src="assets/js/core/jquery.min.js"></script>
-    <script src="assets/js/plugins/jquery.validate.min.js"></script>
-    <!-- quill -->
-    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+    <%- include('script'); %>
     <script>
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         inherit_sidebar_setting();
@@ -107,9 +107,7 @@
       $.getScript("assets/js/vendor/common_validation.js");
 
       $(() => {
-        $("#footer").load("assets/include/footer.html", () => {
-          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
-        });
+        show_modal_when_onload();
         $("#report-note").val(null);
       });
 

@@ -125,14 +125,15 @@
       <!-- End of card content -->
       <!-- fotter -->
       <footer id="footer" class="footer footer-black  footer-white ">
+        <%- include('footer'); %>
       </footer>
+      <div id="modal">
+        <%- include('modal'); %>
+      </div>
+      <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
     </div>
   </div>
-  <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
-  <div id="modal"></div>
-  <!--   Core JS Files   -->
-
-  <script src="assets/js/core/jquery.min.js"></script>
+  <%- include('script'); %>
   <script>
     $.getScript("assets/js/vendor/common_sidebar.js", () => {
       change_class('#sidebar-admin', sidebar_id_list);
@@ -140,10 +141,8 @@
     });
 
     $(() => {
-      $("#footer").load("assets/include/footer.html", () => {
-        datatables_setting.initialize_for_userlist_in_users('#datatable-user');
-        $("#modal").load("assets/include/modal.html", show_modal_when_onload);
-      });
+      datatables_setting.initialize_for_userlist_in_users('#datatable-user');
+      show_modal_when_onload();
 
       <% if (Array.isArray(page_result.data.users)) { %>
       <% page_result.data.users.forEach(user => { %>

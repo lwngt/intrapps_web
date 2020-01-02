@@ -67,24 +67,21 @@
         </div>
       </div>
       <footer id="footer" class="footer footer-black  footer-white fixed-bottom" style="color: white">
+        <%- include('footer'); %>
       </footer>
+      <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
+      <div id="modal">
+        <%- include('modal'); %>
+      </div>
     </div>
-    <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
-    <div id="modal"></div>
   </div>
-  <!--   Core JS Files   -->
-  <script src="assets/js/core/jquery.min.js"></script>
-  <!-- Forms Validations Plugin -->
-  <script src="assets/js/plugins/jquery.validate.min.js"></script>
+  <%- include('script'); %>
   <script>
     $.getScript("assets/js/vendor/common_validation.js");
-    $.getScript("assets/js/vendor/common_util.js");
 
     $(() => {
-      $("#footer").load("assets/include/footer.html", () => {
-        $("#modal").load("assets/include/modal.html", show_modal_when_onload);
-        setFormValidation('#RegisterValidation');
-      });
+      show_modal_when_onload();
+      setFormValidation('#RegisterValidation');
     });
 
     // show error dialog when load

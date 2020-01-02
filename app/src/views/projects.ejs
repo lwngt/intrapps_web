@@ -109,13 +109,14 @@
       </div>
       <!-- fotter -->
       <footer id="footer" class="footer footer-black footer-white ">
+        <%- include('footer'); %>
       </footer>
-      <div id="modal"></div>
+      <div id="modal">
+        <%- include('modal'); %>
+      </div>
       <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
     </div>
-    <!--   Core JS Files   -->
-    <script src="assets/js/core/jquery.min.js"></script>
-
+    <%- include('script'); %>
     <script>
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         change_class('#sidebar-project', sidebar_id_list);
@@ -123,10 +124,10 @@
       });
 
       $(() => {
-        $("#footer").load("assets/include/footer.html", () => {
+        $.getScript("assets/js/vendor/common_datatables.js", () => {
           datatables_setting.initialize_for_projectlist_in_projects('#datatable-projects');
-          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
         });
+        show_modal_when_onload();
       });
 
       // show error dialog when load
