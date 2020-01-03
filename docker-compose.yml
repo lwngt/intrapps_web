@@ -32,12 +32,14 @@ services:
     image: intrapps_web_nginx_image:0.1 # image name
     container_name: intrapps_web_nginx_container # container name
     ports: # Port in this application(host:container)
+      - 80:80
       - 443:443
     volumes: # mount workdir
       - ./app/nginx:/etc/ssl/certs
     links:
       - "web-app"
     expose: # Open port settting
+      - "80"
       - "443"
     networks:
       - intrapps_network
