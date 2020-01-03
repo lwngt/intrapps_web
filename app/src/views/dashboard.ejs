@@ -198,7 +198,8 @@
               <div class="col-6 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
                 <button class="btn btn-default btn-sm report-add" data-buildid="<%= item.build_id %>">
-                  <i class="nc-icon nc-simple-add"></i> add report
+                  <i class="nc-icon nc-simple-add"></i>
+                  <div class="d-none d-md-block">&nbsp;add report</div>
                 </button>
                 <% } %>
               </div>
@@ -217,13 +218,15 @@
                     <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
                     <button class="btn btn-default btn-sm report-edit" data-buildid="<%= report_item.build_id %>"
                       data-reportid="<%= report_item.report_id %>">
-                      <i class="nc-icon nc-settings-gear-65"></i>&nbspEdit
+                      <i class="nc-icon nc-settings-gear-65"></i>
+                      <div class="d-none d-md-block">&nbspEdit</div>
                     </button>
                     <% } %>
                     <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
                     <button class="btn btn-default btn-sm report-remove" data-buildid="<%= report_item.build_id %>"
                       data-reportid="<%= report_item.report_id %>" data-toggle="modal" data-target="#myModal">
-                      <i class=" nc-icon nc-simple-remove"></i>&nbspDelete
+                      <i class=" nc-icon nc-simple-remove"></i>
+                      <div class="d-none d-md-block">&nbspDelete</div>
                     </button>
                     <% } %>
                   </div>
