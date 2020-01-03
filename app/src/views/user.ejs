@@ -223,26 +223,26 @@
       </div>
       <!-- fotter -->
       <footer id="footer" class="footer footer-black footer-white ">
+        <%- include('footer'); %>
       </footer>
-      <div id="modal"></div>
+      <div id="modal">
+        <%- include('modal'); %>
+      </div>
       <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
       <div id="update-modal" data-toggle="modal" data-target="#myModal"></div>
       <div id="delete-modal" data-toggle="modal" data-target="#myModal"></div>
     </div>
   </div>
-  <!--   Core JS Files   -->
-  <script src="assets/js/core/jquery.min.js"></script>
+  <%- include('script'); %>
   <script>
     $.getScript("assets/js/vendor/common_sidebar.js", () => {
       inherit_sidebar_setting();
     });
 
     $(() => {
-      $("#footer").load("assets/include/footer.html", () => {
-        $("#modal").load("assets/include/modal.html", show_modal_when_onload);
-        $.getScript("assets/js/vendor/common_validation.js", () => {
-          set_form_validation("#user-data");
-        });
+      show_modal_when_onload();
+      $.getScript("assets/js/vendor/common_validation.js", () => {
+        set_form_validation("#user-data");
       });
     });
 

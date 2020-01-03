@@ -17,3 +17,6 @@ ADD ./app/src/public/assets/js /var/www/html/assets/js
 ADD ./app/src/public/assets/js/core /var/www/html/assets/js/core
 ADD ./app/src/public/assets/js/plugins /var/www/html/assets/js/plugins
 ADD ./app/src/public/assets/js/vendor /var/www/html/assets/js/vendor
+
+# run command in docker
+RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf_bk

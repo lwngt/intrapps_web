@@ -34,7 +34,8 @@
           <div class="col-md-6 ml-auto mr-auto">
             <div class="card">
               <div class="card-header">
-                <h3 class="text-center">Intrapps</h3>
+                <br>
+                <div class="text-center"><img src="assets/img/intrapps_logo.png"></div>
               </div>
               <div class="card-body text-center">
                 <div class="text-center">Error !!<br>Operation couldn't be completed.</div>
@@ -46,22 +47,17 @@
         </div>
       </div>
       <footer id="footer" class="footer footer-black footer-white fixed-bottom">
+        <%- include('footer'); %>
       </footer>
     </div>
     <!-- error dialog -->
-    <div id="modal"></div>
+    <div id="modal">
+      <%- include('modal'); %>
+    </div>
   </div>
-  <!--   Core JS Files   -->
-  <script src="assets/js/core/jquery.min.js"></script>
-  <!-- Forms Validations Plugin -->
-  <script src="assets/js/plugins/jquery.validate.min.js"></script>
+  <%- include('script'); %>
   <script>
     $.getScript("assets/js/vendor/common_validation.js");
-
-    $(() => {
-      $("#footer").load("assets/include/footer.html");
-      $("#modal").load("assets/include/modal.html", show_modal_when_onload);
-    });
   </script>
 </body>
 

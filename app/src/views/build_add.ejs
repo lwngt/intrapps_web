@@ -125,24 +125,22 @@
       </div>
       <!-- fotter -->
       <footer id="footer" class="footer footer-black  footer-white ">
+        <%- include('footer'); %>
       </footer>
-      <div id="modal"></div>
+      <div id="modal">
+        <%- include('modal'); %>
+      </div>
       <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
     </div>
-    <!--   Core JS Files   -->
-    <script src="assets/js/core/jquery.min.js"></script>
-    <!-- quill -->
-    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+    <%- include('script'); %>
     <script>
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         set_highlight_sidebar('project_list', "sidebar-project-<%= page_result.data.project.id %>");
       });
 
       $(() => {
-        $("#footer").load("assets/include/footer.html", () => {
-          set_form_validation('#add-build');
-          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
-        });
+        set_form_validation('#add-build');
+        show_modal_when_onload();
       });
 
       // show error dialog when load

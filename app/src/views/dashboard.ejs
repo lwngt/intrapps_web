@@ -198,7 +198,8 @@
               <div class="col-6 text-right">
                 <% if (page_result.data.sidebar.user_information.authority_content.add !== 0) { %>
                 <button class="btn btn-default btn-sm report-add" data-buildid="<%= item.build_id %>">
-                  <i class="nc-icon nc-simple-add"></i> add report
+                  <i class="nc-icon nc-simple-add"></i>
+                  <div class="d-none d-md-block">&nbsp;add report</div>
                 </button>
                 <% } %>
               </div>
@@ -217,13 +218,15 @@
                     <% if (page_result.data.sidebar.user_information.authority_content.edit !== 0) { %>
                     <button class="btn btn-default btn-sm report-edit" data-buildid="<%= report_item.build_id %>"
                       data-reportid="<%= report_item.report_id %>">
-                      <i class="nc-icon nc-settings-gear-65"></i>&nbspEdit
+                      <i class="nc-icon nc-settings-gear-65"></i>
+                      <div class="d-none d-md-block">&nbspEdit</div>
                     </button>
                     <% } %>
                     <% if (page_result.data.sidebar.user_information.authority_content.delete !== 0) { %>
                     <button class="btn btn-default btn-sm report-remove" data-buildid="<%= report_item.build_id %>"
                       data-reportid="<%= report_item.report_id %>" data-toggle="modal" data-target="#myModal">
-                      <i class=" nc-icon nc-simple-remove"></i>&nbspDelete
+                      <i class=" nc-icon nc-simple-remove"></i>
+                      <div class="d-none d-md-block">&nbspDelete</div>
                     </button>
                     <% } %>
                   </div>
@@ -268,8 +271,11 @@
       <!-- End of card content -->
       <!-- fotter -->
       <footer id="footer" class="footer footer-black  footer-white ">
+        <%- include('footer'); %>
       </footer>
-      <div id="modal"></div>
+      <div id="modal">
+        <%- include('modal'); %>
+      </div>
       <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
       <div id="download-modal" data-toggle="modal" data-target="#myModal"></div>
       <div id="safari-ios-modal" data-toggle="modal" data-target="#myModal"></div>
@@ -280,8 +286,7 @@
       </form>
     </div>
   </div>
-  <!--   Core JS Files   -->
-  <script src="assets/js/core/jquery.min.js"></script>
+  <%- include('script'); %>
   <script>
     $.getScript("assets/js/vendor/common_sidebar.js", () => {
       change_class('#sidebar-build', sidebar_id_list);
@@ -305,13 +310,11 @@
           <% }); %>
         <% } %>
       <% } %>
-        $("#footer").load("assets/include/footer.html", () => {
-          $("#modal").load("assets/include/modal.html", show_modal_when_onload);
+        show_modal_when_onload();
         <% if (page_result !== null) { %>
-            change_page(<%= page_result.data.page_no %>);
+        change_page(<%= page_result.data.page_no %>);
           <% } %>
-            $("#pager").show();
-        });
+        $("#pager").show();
     });
 
     // show error dialog when load
