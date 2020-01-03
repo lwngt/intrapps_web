@@ -4,7 +4,7 @@ services:
     build:
       context: ./ # Dockerfile path
       dockerfile: ./docker/construct_app/Dockerfile # Dockerfile name
-    image: intrapps_web_image:0.6.3-rel # image name
+    image: intrapps_web_image:0.6.4-rel # image name
     container_name: intrapps_web_container # container name
     ports:
       - "3000:3000"
@@ -24,7 +24,7 @@ services:
     build:
       context: ./ # Dockerfile path
       dockerfile: ./docker/construct_web/Dockerfile # Dockerfile name
-    image: intrapps_web_nginx_image:0.1-rel # image name
+    image: intrapps_web_nginx_image:0.2.0-rel # image name
     container_name: intrapps_web_nginx_container # container name
     ports: # Port in this application(host:container)
       - 443:443
