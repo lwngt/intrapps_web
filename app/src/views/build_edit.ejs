@@ -178,7 +178,6 @@
         $('#release-note').val(build_release_note_text);
 
         execute_update_build(() => {
-          console.log($('#enable-download').val());
           if ($('#enable-download').val() === "on") {
             $('#enabled').val(1);
           } else {
