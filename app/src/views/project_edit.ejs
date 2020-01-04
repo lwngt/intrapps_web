@@ -101,9 +101,14 @@
               <div class="row">
                 <div class="card-category col-12 col-md-3 card-category">Screen</div>
                 <div class="col-12 col-md-9">
+                  <% let i = 0; %>
+                  <% let j = 0; %>
+                  <% if(screenshot_images[0] !== null
+                     && screenshot_images[1] !== null
+                     && screenshot_images[2] !== null
+                     && screenshot_images[3] !== null
+                     && screenshot_images[4] !== null) { %>
                   <div class="row">
-                    <% let i = 0; %>
-                    <% let j = 0; %>
                     <% for( i = 0 ; i < screenshot_images.length ; i++) { %>
                     <% if(screenshot_images[i] !== null) { %>
                     <% j = j + 1; %>
@@ -122,6 +127,9 @@
                     <% } %>
                     <% } %>
                   </div>
+                  <% } else { %>
+                  no images
+                  <% } %>
                 </div>
               </div>
               <br>
@@ -171,7 +179,6 @@
         //inherit_sidebar_setting();
         set_highlight_sidebar('project_list', 'sidebar-project-<%= page_result.data.project.id %>');
       });
-      $.getScript("assets/js/vendor/common_util.js");
 
       project_images_modify = [0, 0, 0, 0, 0];
       project_images_count = <%= j %>;
@@ -187,6 +194,7 @@
           $('#upload').uploadThumbs({
             position: '#preview',
           });
+          $("#upload").val("");
         });
 
       // show error dialog when load
@@ -195,6 +203,9 @@
         <% if (error !== undefined && error !== null) { %>
             $("#load-modal").trigger("click");
         <% } %>
+            window.onpageshow = function () {
+              delete_circle_loading();
+            }
         });
       };
 
@@ -208,10 +219,6 @@
         },
         theme: 'snow'
       });
-
-      window.onpageshow = function () {
-        delete_circle_loading();
-      }
 
       $("#load-modal").click(() => {
         <% if (error !== undefined && error !== null) { %>
