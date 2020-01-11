@@ -28,7 +28,6 @@ var change_class = (id, array) => {
   // never set highlight
   if (activation === false) {
     // set active
-    console.log(id + ":active");
     $(id).addClass('active');
     // save setting
     save_highlight_setting(id);
