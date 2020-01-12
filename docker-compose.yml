@@ -6,7 +6,7 @@ services:
     build:
       context: ./ # Dockerfile path
       dockerfile: ./docker/construct_app/Dockerfile # Dockerfile name
-    image: intrapps_web_image:0.6.9 # image name
+    image: intrapps_web_image:0.6.10 # image name
     container_name: intrapps_web_container # container name
     ports:
       - "3000:3000"
