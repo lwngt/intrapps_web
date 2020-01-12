@@ -104,10 +104,10 @@
                   <% let i = 0; %>
                   <% let j = 0; %>
                   <% if(screenshot_images[0] !== null
-                     && screenshot_images[1] !== null
-                     && screenshot_images[2] !== null
-                     && screenshot_images[3] !== null
-                     && screenshot_images[4] !== null) { %>
+                     || screenshot_images[1] !== null
+                     || screenshot_images[2] !== null
+                     || screenshot_images[3] !== null
+                     || screenshot_images[4] !== null) { %>
                   <div class="row">
                     <% for( i = 0 ; i < screenshot_images.length ; i++) { %>
                     <% if(screenshot_images[i] !== null) { %>
