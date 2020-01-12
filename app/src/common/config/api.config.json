@@ -80,6 +80,7 @@
         "delete_project": "/delete_project",
         "building": "/building",
         "add_building": "/add_building",
+        "edit_building": "/edit_building",
         "delete_building": "/delete_building",
         "users": "/users",
         "user": "/user",
