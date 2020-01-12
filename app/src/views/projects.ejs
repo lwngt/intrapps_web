@@ -93,7 +93,9 @@
                   </td>
                   <td class="project-no" style="max-width: 20px;"><%= project.project_id %></td>
                   <td style="min-width: 100px;"><%= project.project_name %></td>
-                  <td style="min-width: 200px;"><%- decodeURIComponent(project.project_overview) %></td>
+                  <td style="min-width: 200px;">
+                    <div id="project-overivew-text"><%- decodeURIComponent(project.project_overview) %></div>
+                  </td>
                 </tr>
                 <%     });  %>
               </tbody>
@@ -118,6 +120,8 @@
     </div>
     <%- include('script'); %>
     <script>
+      $('#project-overivew-text > p').css({ "margin": "0px" });
+
       $.getScript("assets/js/vendor/common_sidebar.js", () => {
         change_class('#sidebar-project', sidebar_id_list);
         set_highlight_sidebar('project_list', 'sidebar-project-all');
