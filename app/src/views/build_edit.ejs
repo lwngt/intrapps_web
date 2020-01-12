@@ -178,7 +178,7 @@
         $('#release-note').val(build_release_note_text);
 
         execute_update_build(() => {
-          if ($('#enable-download').val() === "on") {
+          if ($('#enable-download').prop("checked") === true) {
             $('#enabled').val(1);
           } else {
             $('#enabled').val(0);
