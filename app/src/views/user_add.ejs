@@ -169,7 +169,7 @@
             </form>
             <br>
             <div class="text-center">
-              <button class="btn btn-danger btn-round" id="save-user-data" data-toggle="modal" data-target="#myModal">
+              <button class="btn btn-danger btn-round" id="save-user-data">
                 <i class="nc-icon nc-check-2"></i>&nbsp;&nbsp;Save
               </button>
             </div>
@@ -185,6 +185,7 @@
           <%- include('modal'); %>
         </div>
         <div id="load-modal" data-toggle="modal" data-target="#myModal"></div>
+        <div id="input-modal" data-toggle="modal" data-target="#myModal"></div>
       </div>
     </div>
     <%- include('script'); %>
@@ -221,38 +222,42 @@
       });
 
       $('#save-user-data').click(() => {
+        $("#user-data").valid();
         if (check_validation_result($("#user-name"))
           && check_validation_result($("#user-password"))
           && check_validation_result($("#user-email"))
           && check_validation_result($("#user-firstname"))
           && check_validation_result($("#user-lastname"))) {
-
-          set_save_user_information_modal(() => {
-            // set post data in form
-            let counter = 0;
-
-            // set hidden parameter to send on and off data for each project.
-            $(".app-projects").each((index, element) => {
-              // create hidden tag
-              let project_id = element.dataset.projectid;
-              let project_id_tag = '<input type="hidden" name="user_manage_projects[' + counter
-                + '][id]" value="' + project_id + '" />';
-              let project_checked = element.checked;
-              let project_checked_tag = '<input type="hidden" name="user_manage_projects[' + counter
-                + '][checked]" value="' + project_checked + '" />';
-
-              // append tag in form
-              $('#user-data').append(project_id_tag);
-              $('#user-data').append(project_checked_tag);
-              counter++;
-            });
-
-            show_circle_loading();
-
-            // execute post
-            $('#user-data').submit();
-          });
+          $("#input-modal").trigger("click");
         }
+      });
+
+      $("#input-modal").click(() => {
+        set_save_user_information_modal(() => {
+          // set post data in form
+          let counter = 0;
+
+          // set hidden parameter to send on and off data for each project.
+          $(".app-projects").each((index, element) => {
+            // create hidden tag
+            let project_id = element.dataset.projectid;
+            let project_id_tag = '<input type="hidden" name="user_manage_projects[' + counter
+              + '][id]" value="' + project_id + '" />';
+            let project_checked = element.checked;
+            let project_checked_tag = '<input type="hidden" name="user_manage_projects[' + counter
+              + '][checked]" value="' + project_checked + '" />';
+
+            // append tag in form
+            $('#user-data').append(project_id_tag);
+            $('#user-data').append(project_checked_tag);
+            counter++;
+          });
+
+          show_circle_loading();
+
+          // execute post
+          $('#user-data').submit();
+        });
       });
 
       set_form_validation = (id) => {
