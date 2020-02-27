@@ -26,11 +26,11 @@ You can use investigate and modify web app of Intrapps.
 
 ## How to debug of web app
 
-[Click here for detailed debug of web app](http://www.intrapps.com/spec/how-to-debug.html#web)
+[Click here for detailed debug of web app](https://www.intrapps.com/spec/how-to-debug.html#web)
 
 ## Web app's spec
 
-[Click here for detailed web spec](http://www.intrapps.com/spec/intrapps_web.html)
+[Click here for detailed web spec](https://www.intrapps.com/spec/intrapps_web.html)
 
 ## Other repogitory
 
@@ -38,12 +38,16 @@ You can use investigate and modify web app of Intrapps.
 - [API's source code](https://github.com/lwngt/intrapps_api)
 - [Database's source code](https://github.com/lwngt/intrapps_db)
 
+## UI framework
+
+[Paper Dashboard 2 PRO from Creative Tim](https://www.creative-tim.com/product/paper-dashboard-2-pro)
+
 ## Licence
 
 Intrapps<br>
 Copyright (c) 2020 [Lichtwork.com](https://www.lichtwork.com)<br>
 Apache License 2.0
 
-## UI framework
+## Story
 
-[Paper Dashboard 2 PRO from Creative Tim](https://www.creative-tim.com/product/paper-dashboard-2-pro)
+[here](https://www.intrapps.com/story.html)
