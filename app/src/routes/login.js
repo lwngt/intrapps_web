@@ -22,8 +22,12 @@ router.get('/', function (req, res, next) {
   }
   res.clearCookie('apikey');
   res.clearCookie('secretkey');
+  let error_message = null
+  if (req.session.error !== undefined && req.session.error) {
+    error_message = req.session.error
+  }
   req.session.destroy();
-  res.render('login.ejs', { req: req, error: null });
+  res.render('login.ejs', { req: req, error: error_message });
   return;
 });
 
