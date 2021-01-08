@@ -9,13 +9,11 @@
   <title>
     Intrapps
   </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-    name='viewport' />
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <!-- CSS Files -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
@@ -45,15 +43,13 @@
                   <div class="text-left">
                     <label>Username *</label>
                     <div class="form-group">
-                      <input id="user-name" name="user_name" class="form-control" type="text" minLength="6"
-                        maxLength="100" placeholder="Username" required="true">
+                      <input id="user-name" name="user_name" class="form-control" type="text" minLength="6" maxLength="100" placeholder="Username" required="true">
                     </div>
                   </div>
                   <div class="text-left">
                     <label>Password *</label>
                     <div class="form-group">
-                      <input id="user-password" name="user_password" type="password" minLength="6" maxLength="100"
-                        placeholder="password" class="form-control" required="true">
+                      <input id="user-password" name="user_password" type="password" class="form-control" type="text" minLength="6" maxLength="100" placeholder="password" required="true">
                     </div>
                   </div>
                 </div>
@@ -77,75 +73,76 @@
     </div>
   </div>
   <%- include('script'); %>
-  <script>
-    $.getScript("assets/js/vendor/common_validation.js");
+    <script>
+      $.getScript("assets/js/vendor/common_validation.js");
 
-    $(() => {
-      show_modal_when_onload();
-      setFormValidation('#RegisterValidation');
-    });
+      $(() => {
+        show_modal_when_onload();
+        setFormValidation('#RegisterValidation');
+      });
 
-    // show error dialog when load
-    show_modal_when_onload = () => {
-      $.getScript("assets/js/vendor/common_util.js", () => {
+      // show error dialog when load
+      show_modal_when_onload = () => {
+        $.getScript("assets/js/vendor/common_util.js", () => {
         <% if (error !== undefined && error !== null) { %>
-          $("#load-modal").trigger("click");
+            $("#load-modal").trigger("click");
         <% } %>
-          window.onpageshow = function () {
-            delete_circle_loading();
-          }
-      });
-    };
+            window.onpageshow = function () {
+              delete_circle_loading();
+            }
+        });
+      };
 
-    $("#load-modal").click(() => {
+      $("#load-modal").click(() => {
         <% if (error !== undefined && error !== null) { %>
-        create_modal('error (<%= error.status %>_<%= error.code %>)',
-          '<%= error.message %>', 'close', null);
+          create_modal('error (<%= error.status %>_<%= error.code %>)',
+            '<%= error.message %>', 'close', null);
         <% } %>
       });
 
-    $('#user-login').click(() => {
-      if (check_validation_result($("#user-name"))
-        && check_validation_result($("#password"))
-      ) {
-        // post method is here
-        show_circle_loading();
-        $("#RegisterValidation").submit();
-      }
-    });
-
-    setFormValidation = (id) => {
-      $(id).validate({
-        highlight: function (element) {
-          $(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
-          $(element).closest('.form-check').removeClass('has-success').addClass('has-danger');
-        },
-        success: function (element) {
-          $(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
-          $(element).closest('.form-check').removeClass('has-danger').addClass('has-success');
-          $(element).closest('.form-group').find('label').remove();
-          // develop original validation check because jquery validate plugin of addmetod doesn't work..
-          // I don't know why of it.
-          if ($(element).attr('id') === 'user-name-error') {
-            if (half_size_check($("#user-name").val()) === false) {
-              display_check_error(half_size_check_error_comment, $("#user-name"));
-            }
-          }
-          if ($(element).attr('id') === 'user-password-error') {
-            let test = $("#password").val();
-            if (password_check($("#user-password").val()) === false) {
-              display_check_error(password_check_error_comment, $("#user-password"));
-            }
-          }
-        },
-        errorPlacement: function (error, element) {
-          $(element).closest('.form-group').find('label').remove();
-          $(element).closest('.form-group').append(error);
-        },
+      $('#user-login').click(() => {
+        $("#RegisterValidation").valid();
+        if (check_validation_result($("#user-name"))
+          && check_validation_result($("#user-password"))
+        ) {
+          // post method is here
+          show_circle_loading();
+          $("#RegisterValidation").submit();
+        }
       });
-    };
 
-  </script>
+      setFormValidation = (id) => {
+        $(id).validate({
+          highlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
+            $(element).closest('.form-check').removeClass('has-success').addClass('has-danger');
+          },
+          success: function (element) {
+            $(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+            $(element).closest('.form-check').removeClass('has-danger').addClass('has-success');
+            $(element).closest('.form-group').find('label').remove();
+            // develop original validation check because jquery validate plugin of addmetod doesn't work..
+            // I don't know why of it.
+            if ($(element).attr('id') === 'user-name-error') {
+              if (half_size_check($("#user-name").val()) === false) {
+                display_check_error(half_size_check_error_comment, $("#user-name"));
+              }
+            }
+            if ($(element).attr('id') === 'user-password-error') {
+              let test = $("#password").val();
+              if (password_check($("#user-password").val()) === false) {
+                display_check_error(password_check_error_comment, $("#user-password"));
+              }
+            }
+          },
+          errorPlacement: function (error, element) {
+            $(element).closest('.form-group').find('label').remove();
+            $(element).closest('.form-group').append(error);
+          },
+        });
+      };
+
+    </script>
 </body>
 
 </html>
