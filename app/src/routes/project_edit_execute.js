@@ -4,7 +4,7 @@ let common_webserver_util = require("../common/common_webserver_util");
 let common_webserver_util_func = new common_webserver_util();
 let multer = require('multer');
 let moment = require("moment");
-let uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 let common_logs = require('../common/common_logs');
 let common_logs_func = new common_logs;
 
