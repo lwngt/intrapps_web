@@ -45,7 +45,7 @@ You can use investigate and modify web app of Intrapps.
 ## Licence
 
 Intrapps<br>
-Copyright (c) 2021 [Lichtwork.com](https://www.lichtwork.com)<br>
+Copyright (c) 2022 [Lichtwork.com](https://www.lichtwork.com)<br>
 Apache License 2.0
 
 ## Story
