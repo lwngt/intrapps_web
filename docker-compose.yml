@@ -11,15 +11,18 @@ services:
     ports:
       - "3000:3000"
       - "9229:9229"
-    environment: # Environment variable
+    environment:
+      # Environment variable
       - PORT=3000
-    volumes: # mount workdir
+    volumes:
+      # mount workdir
       - ./app/src:/work
       - ./logs:/root/.npm/_logs
       - ./logs:/work/logs
       - unmount:/work/node_modules
-    command: [sh, -c, npm install && npm run debug] # Command after working
-    expose: # Open port settting (Debug)
+    command: [ sh, -c, npm install && npm run debug ]       
+    expose:
+      # Open port settting (Debug)
       - "3000"
       - "9228"
     networks:
@@ -31,14 +34,17 @@ services:
       dockerfile: ./docker/construct_web/Dockerfile # Dockerfile name
     image: intrapps_web_nginx_image:0.3.0 # image name
     container_name: intrapps_web_nginx_container # container name
-    ports: # Port in this application(host:container)
+    ports:
+      # Port in this application(host:container)
       - 80:80
       - 443:443
-    volumes: # mount workdir
+    volumes:
+      # mount workdir
       - ./app/nginx:/etc/ssl/certs
     links:
       - "web-app"
-    expose: # Open port settting
+    expose:
+      # Open port settting
       - "80"
       - "443"
     networks:
